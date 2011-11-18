@@ -1,0 +1,6 @@
+pkg
+pkg/*
+*/pkg/*
+*.swp
+*.swo
+Gemfile.lock
