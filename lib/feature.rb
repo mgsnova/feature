@@ -3,6 +3,7 @@
 #  - to set a feature repository
 #  - to check if a feature (represented by a symbol) is acitve or inactive
 #  - for conditional block execution with or without a feature
+#  - to refresh the feature lists (request them from repository)
 #
 module Feature
   require 'feature/repository'
