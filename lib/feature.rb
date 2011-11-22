@@ -5,12 +5,13 @@
 #  - for conditional block execution with or without a feature
 #  - to refresh the feature lists (request them from repository)
 #
+# NOTE: all features not active will be handled has inactive
+#
 module Feature
   require 'feature/repository'
 
   @repository = nil
   @active_features = nil
-  @inactive_features = nil
 
   ##
   # Set the feature repository
@@ -27,11 +28,10 @@ module Feature
   end
 
   ##
-  # Obtains list of active and inactive features from repository
+  # Obtains list of active features from repository
   #
   def self.refresh!
     @active_features = @repository.active_features
-    @inactive_features = @repository.inactive_features
   end
 
   ##
@@ -49,17 +49,13 @@ module Feature
   end
 
   ##
-  # Requests if feature is inactive
+  # Requests if feature is inactive (or unknown)
   #
   #   @param    Symbol, feature
   #   @return   Boolean
   #
   def self.inactive?(feature)
-    if !@repository
-      raise "Feature is missing Repository for obtaining feature lists"
-    end
-
-    @inactive_features.include?(feature)
+    !self.active?(feature)
   end
 
   ##

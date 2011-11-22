@@ -1,8 +1,8 @@
 module Feature
   module Repository
     ##
-    # SimpleRepository for active and inactive feature list
-    # Simply add features to both lists, not config or data sources required
+    # SimpleRepository for active feature list
+    # Simply add features to that should be active, no config or data sources required
     #
     class SimpleRepository < AbstractRepository
       ##
@@ -10,7 +10,6 @@ module Feature
       #
       def initialize
         @active_features = []
-        @inactive_features = []
       end
 
       ##
@@ -23,34 +22,14 @@ module Feature
       end
 
       ##
-      # Returns list of inactive features
-      #
-      #   @return   Array<Symbol>
-      #
-      def inactive_features
-        @inactive_features.dup
-      end
-
-      ##
       # Add an active feature
       #
       #   @param    Sybmol, feature
       #
       def add_active_feature(feature)
         check_feature_is_symbol(feature)
-        check_feature_already_in_lists(feature)
+        check_feature_already_in_list(feature)
         @active_features << feature
-      end
-
-      ##
-      # Add an inactive feature
-      #
-      #   @param    Sybmol, feature
-      #
-      def add_inactive_feature(feature)
-        check_feature_is_symbol(feature)
-        check_feature_already_in_lists(feature)
-        @inactive_features << feature
       end
 
       ##
@@ -66,21 +45,17 @@ module Feature
       private :check_feature_is_symbol
 
       ##
-      # Checks if given feature is already added to list of active or inactive features
+      # Checks if given feature is already added to list of active features
       # and raises an exception if so
       #
       #   @param    Symbol, feature
       #
-      def check_feature_already_in_lists(feature)
+      def check_feature_already_in_list(feature)
         if @active_features.include?(feature)
           raise ArgumentError, "feature :#{feature} already added to list of active features"
         end
-
-        if @inactive_features.include?(feature)
-          raise ArgumentError, "feature :#{feature} already added to list of inactive features"
-        end
       end
-      private :check_feature_already_in_lists
+      private :check_feature_already_in_list
     end
   end
 end

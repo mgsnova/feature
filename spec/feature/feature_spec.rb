@@ -55,11 +55,6 @@ describe Feature do
       @repository.add_active_feature(:feature_a)
       Feature.active?(:feature_a).should be_false
     end
-
-    it "should get inactive features from repository once" do
-      @repository.add_inactive_feature(:feature_a)
-      Feature.inactive?(:feature_a).should be_false
-    end
   end
 
   context "refresh features" do
@@ -73,19 +68,12 @@ describe Feature do
       Feature.refresh!
       Feature.active?(:feature_a).should be_true
     end
-
-    it "should refresh inactive feature lists from repository" do
-      @repository.add_inactive_feature(:feature_a)
-      Feature.refresh!
-      Feature.inactive?(:feature_a).should be_true
-    end
   end
 
   context "request features" do
     before(:each) do
       repository = Feature::Repository::SimpleRepository.new
       repository.add_active_feature :feature_active
-      repository.add_inactive_feature :feature_inactive
       Feature.set_repository repository
     end
 

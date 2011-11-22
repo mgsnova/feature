@@ -1,3 +1,8 @@
+## 0.3.0 (2011-11-xx)
+
+* assume all features as inactive that are not active, also unknown ones
+* make yaml parsing in yaml repository more strict
+
 ## 0.2.1 (2011-11-22)
 
 * refactored gemspec

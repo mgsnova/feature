@@ -28,10 +28,6 @@ EOF
       @repo.active_features.should == [:feature_a_active, :feature_b_active]
     end
 
-    it "should read inactive features from a config file" do
-      @repo.inactive_features.should == [:feature_c_inactive, :feature_d_inactive]
-    end
-
     context "re-read config file" do
       before(:each) do
         fp = File.new(@filename, 'w')
@@ -45,10 +41,6 @@ EOF
 
       it "should read active features new on each request" do
         @repo.active_features.should == [:feature_a_active]
-      end
-
-      it "should read inactive features new on each request" do
-        @repo.inactive_features.should == [:feature_c_inactive]
       end
     end
   end

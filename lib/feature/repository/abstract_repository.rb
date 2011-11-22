@@ -2,10 +2,9 @@ module Feature
   module Repository
     ##
     # Abstract class for subclassing and building repository classes which
-    # provide lists of active and inactive features
+    # provide lists of active features
     #
     class AbstractRepository
-
       ##
       # Constructor
       #
@@ -21,15 +20,6 @@ module Feature
       #   @return   Array<Symbol>
       #
       def active_features
-        raise "#{__method__} has to be overridden in derived class"
-      end
-
-      ##
-      # Returns list of inactive features
-      #
-      #   @return   Array<Symbol>
-      #
-      def inactive_features
         raise "#{__method__} has to be overridden in derived class"
       end
     end
