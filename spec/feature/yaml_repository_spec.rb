@@ -71,4 +71,19 @@ EOF
       repo.active_features
     end.should raise_error(ArgumentError, "content of #{@filename} does not contain proper config")
   end
+
+  it "should raise exception on not true/false value in config" do
+    @filename = Tempfile.new(['feature_config', '.yaml']).path
+    fp = File.new(@filename, 'w')
+    fp.write <<"EOF";
+features:
+    invalid_feature: neither_true_or_false
+EOF
+    fp.close
+
+    repo = YamlRepository.new(@filename)
+    lambda do
+      repo.active_features
+    end.should raise_error(ArgumentError, "neither_true_or_false is not allowed value in config, use true/false")
+  end
 end
