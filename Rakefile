@@ -4,7 +4,7 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = "feature"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.authors = ["Markus Gerdes"]
   s.email = %q{github@mgsnova.de}
@@ -12,7 +12,7 @@ spec = Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/mgsnova/feature}
   s.require_paths = ["lib"]
   s.summary = "Feature Toggle library for ruby"
-  s.files = FileList["{lib,spec}/**/*"].exclude("rdoc").to_a + ["Rakefile", "Gemfile"]
+  s.files = FileList["{lib,spec}/**/*"].exclude("rdoc").to_a + ["Rakefile", "Gemfile", "README.md", "CHANGELOG.md"]
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|

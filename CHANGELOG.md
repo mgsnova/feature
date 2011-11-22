@@ -1,0 +1,7 @@
+## 0.2.0 (2011-11-22)
+
+* add yaml config file repository
+
+## 0.1.0 (2011-11-18)
+
+* first version with basic functionality and simple feature repository
