@@ -1,3 +1,7 @@
+## 0.2.1 (2011-11-22)
+
+* refactored gemspec
+
 ## 0.2.0 (2011-11-22)
 
 * add yaml config file repository

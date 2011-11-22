@@ -4,3 +4,4 @@ pkg/*
 *.swp
 *.swo
 Gemfile.lock
+*.gem
