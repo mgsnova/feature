@@ -5,6 +5,10 @@ Feature is a [feature toggle](http://martinfowler.com/bliki/FeatureToggle.html) 
 The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active and inctive features.
 With this approach Feature is higly configurable and not bound to a specific kind of configuration.
 
+## CI status
+
+[![Travis-CI Build Status](https://secure.travis-ci.org/mgsnova/feature.png)](https://secure.travis-ci.org/mgsnova/feature)
+
 ## Installation
 
         gem install feature
