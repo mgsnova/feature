@@ -1,50 +1,36 @@
 module Feature
   module Repository
-    ##
     # YamlRepository for active and inactive features
     # The yaml config file should look like this:
     #
-    #     features:
-    #         an_active_feature: true
-    #         an_inactive_feature: false
+    #   features:
+    #       an_active_feature: true
+    #       an_inactive_feature: false
     #
     class YamlRepository < AbstractRepository
       require 'yaml'
 
-      ##
       # Constructor
       #
-      #   @param    String, yaml_file_name
+      # @param [String] yaml_file_name the yaml config filename
       #
       def initialize(yaml_file_name)
         @yaml_file_name = yaml_file_name
       end
 
-      ##
       # Returns list of active features
       #
-      #   @return   Array<Symbol>
+      # @return [Array<Symbol>] list of active features
       #
       def active_features
-        get_active_features_from_file
-      end
-
-      ##
-      # Return a list of active features read from the config file
-      #
-      #   @return   Array<Symbol>
-      #
-      def get_active_features_from_file
         features_hash = read_and_parse_file_data
         features = features_hash.keys.select { |feature_key| features_hash[feature_key] }
         features.sort.map(&:to_sym)
       end
-      private :get_active_features_from_file
 
-      ##
       # Read and parses the feature config file
       #
-      #   @return   Hash (with :feature => true/false meaning active/inactive)
+      # @return [Hash] Hash containing :feature => true/false entries for representing active/inactive features
       #
       def read_and_parse_file_data
         raw_data = File.read(@yaml_file_name)

@@ -5,3 +5,5 @@ pkg/*
 *.swo
 Gemfile.lock
 *.gem
+doc/
+.yardoc/
