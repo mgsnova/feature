@@ -1,4 +1,4 @@
-## 0.3.0 (2011-11-xx)
+## 0.3.0 (2011-11-23)
 
 * assume all features as inactive that are not active, also unknown ones
 * make yaml parsing in yaml repository more strict
