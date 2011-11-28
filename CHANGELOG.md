@@ -1,3 +1,7 @@
+## 0.4.0 (2011-11-28)
+
+* simplify repositories, they only have to respond to method active_features 
+
 ## 0.3.0 (2011-11-23)
 
 * assume all features as inactive that are not active, also unknown ones
