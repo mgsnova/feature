@@ -13,12 +13,13 @@ module Feature
   @active_features = nil
 
   # Set the feature repository
+  # The given repository has to respond to method 'active_features' with an array of symbols
   #
-  # @param [Feature::Repository::AbstractRepository] repository the repository to get the features from
+  # @param [Object] repository the repository to get the features from
   #
   def self.set_repository(repository)
-    if !repository.is_a?(Feature::Repository::AbstractRepository)
-      raise ArgumentError, "given argument is not a repository"
+    if !repository.respond_to?(:active_features)
+      raise ArgumentError, "given repository does not respond to active_features"
     end
 
     @repository = repository

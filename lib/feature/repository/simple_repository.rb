@@ -3,7 +3,7 @@ module Feature
     # SimpleRepository for active feature list
     # Simply add features to that should be active, no config or data sources required
     #
-    class SimpleRepository < AbstractRepository
+    class SimpleRepository
       # Constructor
       #
       def initialize

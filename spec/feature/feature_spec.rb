@@ -38,7 +38,7 @@ describe Feature do
     it "should raise an exception when add repository with wrong class" do
       lambda do
         Feature.set_repository("not a repository")
-      end.should raise_error(ArgumentError, "given argument is not a repository")
+      end.should raise_error(ArgumentError, "given repository does not respond to active_features")
     end
 
     it "should set a feature repository" do

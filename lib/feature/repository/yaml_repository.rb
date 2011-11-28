@@ -7,7 +7,7 @@ module Feature
     #       an_active_feature: true
     #       an_inactive_feature: false
     #
-    class YamlRepository < AbstractRepository
+    class YamlRepository
       require 'yaml'
 
       # Constructor
