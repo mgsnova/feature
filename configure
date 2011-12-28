@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -o errexit
-
-# Assumes rvm:
-gem install bundler --version "~> 1.0" --no-rdoc --no-ri
-bundle install
