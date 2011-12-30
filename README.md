@@ -13,7 +13,9 @@ With this approach Feature is higly configurable and not bound to a specific kin
 
         gem install feature
 
-## Example usage
+## Examples
+
+### Vanilla Ruby
 
         require 'feature'
 
@@ -28,3 +30,22 @@ With this approach Feature is higly configurable and not bound to a specific kin
         Feature.with(:be_nice) do
           puts "you can read this"
         end
+
+### Rails
+
+        # File: Gemfile
+        gem 'feature' # Or with version specifier, e.g. '~> 0.4.0'
+
+        # File: config/feature.yml
+        features:
+            an_active_feature: true
+            an_inactive_feature: false
+
+        # File: config/initializers/feature.rb
+        repo = Feature::Repository::YamlRepository.new("#{Rails.root}/config/feature.yml")
+        Feature.set_repository repo
+
+        # File: app/views/example/index.html.erb
+        <% if Feature.active?(:an_active_feature) %>
+          <%# Feature implementation goes here %>
+        <% end %>
