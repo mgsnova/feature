@@ -40,12 +40,16 @@ module Feature
           raise ArgumentError, "content of #{@yaml_file_name} does not contain proper config"
         end
 
-        invalid_value = data['features'].values.detect { |value| ![true, false].include?(value) }
-        if invalid_value
-          raise ArgumentError, "#{invalid_value} is not allowed value in config, use true/false"
-        end
+        if data['features']
+          invalid_value = data['features'].values.detect { |value| ![true, false].include?(value) }
+          if invalid_value
+            raise ArgumentError, "#{invalid_value} is not allowed value in config, use true/false"
+          end
 
-        data['features']
+          data['features']
+        else
+          {}
+        end
       end
       private :read_and_parse_file_data
     end
