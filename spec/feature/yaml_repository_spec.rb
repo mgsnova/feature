@@ -43,6 +43,21 @@ EOF
         @repo.active_features.should == [:feature_a_active]
       end
     end
+
+    # For example, when all your features are in production and working fine.
+    context "with no features" do
+      before(:each) do
+        fp = File.new(@filename, 'w')
+        fp.write <<"EOF";
+features:
+EOF
+        fp.close
+      end
+
+      it "should read active features new on each request" do
+        @repo.active_features.should == []
+      end
+    end
   end
 
   it "should raise exception on no file found" do
