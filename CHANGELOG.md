@@ -1,3 +1,7 @@
+## 0.4.1 (2012-03-20)
+
+* bugfix: occured when having empty feature set using yaml config (benjaminoakes)
+
 ## 0.4.0 (2011-11-28)
 
 * simplify repositories, they only have to respond to method active_features 
