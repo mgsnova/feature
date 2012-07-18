@@ -58,7 +58,38 @@ EOF
         @repo.active_features.should == []
       end
     end
+
+    # Sometimes needed when loading features from ENV variables or are time
+    # based rules Ex: Date.today > Date.strptime('1/2/2012', '%d/%m/%Y')
+    context "a config file with embedded erb" do
+      before(:each) do
+        @filename = Tempfile.new(['feature_config', '.yaml']).path
+        fp = File.new(@filename, 'w')
+        fp.write <<"EOF";
+features:
+    feature_a_active: <%= 'true' == 'true' %>
+    feature_b_active: true
+    feature_c_inactive: <%= false %>
+    feature_d_inactive: <%= 1 < 0 %>
+EOF
+        fp.close
+
+        @repo = YamlRepository.new(@filename)
+      end
+
+      it "should not raise an exception" do
+        lambda { @repo.active_features }.should_not raise_error
+      end
+
+      it "should read active features from the config file" do
+        @repo.active_features.should == [:feature_a_active, :feature_b_active]
+      end
+
+    end
+
   end
+
+
 
   it "should raise exception on no file found" do
     repo = YamlRepository.new("/this/file/should/not/exist")
