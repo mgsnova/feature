@@ -8,6 +8,7 @@ module Feature
     #       an_inactive_feature: false
     #
     class YamlRepository
+      require 'erb'
       require 'yaml'
 
       # Constructor
@@ -34,7 +35,8 @@ module Feature
       #
       def read_and_parse_file_data
         raw_data = File.read(@yaml_file_name)
-        data = YAML.load(raw_data)
+        evaluated_data = ERB.new(raw_data).result
+        data = YAML.load(evaluated_data)
 
         if !data.is_a?(Hash) or !data.has_key?('features')
           raise ArgumentError, "content of #{@yaml_file_name} does not contain proper config"
