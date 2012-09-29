@@ -1,3 +1,9 @@
+## 0.5.0 (2012-09-29)
+
+* added erb support for yaml feature config (dscataglini)
+* fixed travis integration
+* added code climate link
+
 ## 0.4.1 (2012-03-20)
 
 * bugfix: occured when having empty feature set using yaml config (benjaminoakes)
