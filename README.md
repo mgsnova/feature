@@ -8,6 +8,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 ## CI status
 
 [![Travis-CI Build Status](https://secure.travis-ci.org/mgsnova/feature.png)](https://secure.travis-ci.org/mgsnova/feature)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/mgsnova/feature)
 
 ## Installation
 
