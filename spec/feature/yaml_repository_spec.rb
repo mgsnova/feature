@@ -87,7 +87,7 @@ EOF
     repo = YamlRepository.new("/this/file/should/not/exist")
     lambda do
       repo.active_features
-    end.should raise_error(Errno::ENOENT, "No such file or directory - /this/file/should/not/exist")
+    end.should raise_error(Errno::ENOENT, /No such file or directory -/)
   end
 
   it "should raise exception on invalid yaml" do
