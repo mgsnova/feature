@@ -7,6 +7,10 @@ module Feature
     #       an_active_feature: true
     #       an_inactive_feature: false
     #
+    # Example usage:
+    #   repository = YamlRepository.new('/path/to/yaml/file')
+    #   # use repository with Feature
+    #
     class YamlRepository
       require 'erb'
       require 'yaml'

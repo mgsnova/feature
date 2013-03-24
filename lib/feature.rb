@@ -5,6 +5,20 @@
 # - to refresh the feature lists (request them from repository)
 #
 # @note all features not active will be handled has inactive
+# 
+# Example usage:
+#   repository = SimpleRepository.new
+#   repository.add_active_feature(:feature_name)
+#
+#   Feature.set_repository(repository)
+#   Feature.active?(:feature_name)
+#   # => true
+#   Feature.inactive?(:inactive_feature)
+#   # => false
+#
+#   Feature.with(:feature_name) do
+#     # code will be executed
+#   end
 #
 module Feature
   require 'feature/repository'
@@ -26,7 +40,7 @@ module Feature
     refresh!
   end
 
-  # Obtains list of active features from repository
+  # Obtains list of active features from repository (for the case they change e.g. when using db-backed repository)
   #
   def self.refresh!
     @active_features = @repository.active_features

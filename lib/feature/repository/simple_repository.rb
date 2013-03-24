@@ -3,6 +3,11 @@ module Feature
     # SimpleRepository for active feature list
     # Simply add features to that should be active, no config or data sources required
     #
+    # Example usage:
+    #   repository = SimpleRepository.new
+    #   repository.add_active_feature(:feature_name)
+    #   # use repository with Feature
+    #
     class SimpleRepository
       # Constructor
       #
