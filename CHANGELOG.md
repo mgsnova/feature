@@ -1,3 +1,7 @@
+## 0.6.0 (2013-03-24)
+
+* add capability for easier testing of activated or deactivated features
+
 ## 0.5.0 (2012-09-29)
 
 * added erb support for yaml feature config (dscataglini)
