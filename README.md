@@ -21,9 +21,11 @@ With this approach Feature is higly configurable and not bound to a specific kin
 * Setup Feature
     * Create a repository (see examples below)
     * set repository to Feature
+
         Feature.set_repository(your_repository)
 
 * Use Feature in your production code
+
         Feature.active(:feature_name) # => true/false
 
         Feature.deactive?(:feature_name) # => true/false
@@ -37,6 +39,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
         end
 
 * Use Feature in your test code (for reliable testing of feature depending code)
+
         require 'feature/testing'
 
         Feature.run_with_activated(:feature_name) do
