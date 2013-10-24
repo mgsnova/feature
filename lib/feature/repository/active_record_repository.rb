@@ -21,7 +21,7 @@ module Feature
       # @return [Array<Symbol>] list of active features
       #
       def active_features
-        @model.where(active: true).map { |f| f.name.to_sym }
+        @model.where(:active => true).map { |f| f.name.to_sym }
       end
 
       # Add an active feature to repository
@@ -31,7 +31,7 @@ module Feature
       def add_active_feature(feature)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        @model.new(name: feature.to_s, active: true).save
+        @model.new(:name => feature.to_s, :active => true).save
       end
 
       # Checks if the given feature is a not symbol and raises an exception if so
