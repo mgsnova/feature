@@ -22,6 +22,8 @@
 #
 module Feature
   require 'feature/repository'
+  # Only load the generator if Rails is defined
+  require 'feature/generators/install_generator' if defined?(Rails)
 
   @repository = nil
   @active_features = nil

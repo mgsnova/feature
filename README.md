@@ -88,3 +88,27 @@ With this approach Feature is higly configurable and not bound to a specific kin
         <% if Feature.active?(:an_active_feature) %>
           <%# Feature implementation goes here %>
         <% end %>
+
+
+### Rails using ActiveRecordRepository
+
+        # File: Gemfile
+        gem 'feature' # Or with version specifier, e.g. '~> 0.6.0'
+
+        # Run generator and migrations
+        $ rails g feature:install
+        $ rake db:migrate
+
+        # Add Features to table FeaturesToggle for example in
+        # File: db/schema.rb
+        FeatureToggle.new(name: "ActiveFeature", active: true)
+        FeatureToggle.new(name: "InActiveFeature", active: false)
+
+        # or in initializer
+        # File: config/initializers/feature.rb
+        repo.add_active_feature(:active_feature)
+
+        # File: app/views/example/index.html.erb
+        <% if Feature.active?(:an_active_feature) %>
+          <%# Feature implementation goes here %>
+        <% end %>
