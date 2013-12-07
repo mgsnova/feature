@@ -73,7 +73,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 ### Rails using YamlRepository
 
         # File: Gemfile
-        gem 'feature' # Or with version specifier, e.g. '~> 0.6.0'
+        gem 'feature' # Or with version specifier, e.g. '~> 0.7.0'
 
         # File: config/feature.yml
         features:
@@ -93,7 +93,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 ### Rails using ActiveRecordRepository
 
         # File: Gemfile
-        gem 'feature' # Or with version specifier, e.g. '~> 0.6.0'
+        gem 'feature' # Or with version specifier, e.g. '~> 0.7.0'
 
         # Run generator and migrations
         $ rails g feature:install

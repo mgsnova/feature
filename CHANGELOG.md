@@ -1,3 +1,7 @@
+## 0.7.0 (2013-12-07)
+
+* add ActiveRecordRepository and a Rails::Generator (bigzed)
+
 ## 0.6.0 (2013-03-24)
 
 * add capability for easier testing of activated or deactivated features
