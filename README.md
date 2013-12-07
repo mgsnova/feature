@@ -22,9 +22,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
     * Create a repository (see examples below)
     * set repository to Feature
 
-        your_repository = Feature::Repository::SimpleRepository.new
-
-        Feature.set_repository(your_repository)
+            Feature.set_repository(your_repository)
 
 * Use Feature in your production code
 
