@@ -41,16 +41,6 @@ describe Feature do
       end.should raise_error(ArgumentError, "given repository does not respond to active_features")
     end
 
-    it "should set a feature repository" do
-      lambda do
-        Feature.active?(:feature_a)
-      end.should_not raise_error
-
-      lambda do
-        Feature.inactive?(:feature_a)
-      end.should_not raise_error
-    end
-
     it "should get active features from repository once" do
       @repository.add_active_feature(:feature_a)
       Feature.active?(:feature_a).should be_false

@@ -7,8 +7,9 @@ require 'feature'
 # To enable Feature testing capabilities do:
 #   require 'feature/testing'
 module Feature
+
   # Execute the code block with the given feature active
-  # 
+  #
   # Example usage:
   #   Feature.run_with_activated(:feature) do
   #     # your test code here
@@ -22,7 +23,7 @@ module Feature
   end
 
   # Execute the code block with the given feature deactive
-  # 
+  #
   # Example usage:
   #   Feature.run_with_deactivated(:feature) do
   #     # your test code here

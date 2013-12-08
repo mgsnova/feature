@@ -1,5 +1,4 @@
-require "pathname"
-require 'pp'
+require 'pathname'
 require 'coveralls'
 Coveralls.wear!
 

@@ -80,9 +80,7 @@ module Feature
       raise ArgumentError, "no block given to #{__method__}"
     end
 
-    if active?(feature)
-      yield
-    end
+    yield if active?(feature)
   end
 
   # Execute the given block if feature is inactive
@@ -94,8 +92,6 @@ module Feature
       raise ArgumentError, "no block given to #{__method__}"
     end
 
-    if inactive?(feature)
-      yield
-    end
+    yield if inactive?(feature)
   end
 end
