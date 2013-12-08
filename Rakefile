@@ -6,5 +6,5 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.rspec_opts = ['--colour', '-f documentation', '--backtrace']
 end
 
-task :default => [:spec] do
+task default: [:spec] do
 end

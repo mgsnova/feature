@@ -17,7 +17,7 @@ describe Feature::Repository::ActiveRecordRepository do
 
   it "should add an active feature" do
     @features.should_receive(:exists?).with("feature_a").and_return(false)
-    @features.should_receive(:new).with(:name => "feature_a",:active => true).and_return(stub(:save => true))
+    @features.should_receive(:new).with(name: "feature_a", active: true).and_return(stub(save: true))
 
     @repository.add_active_feature :feature_a
   end
@@ -29,8 +29,8 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   it "should raise an exception when adding a active feature already added as active" do
-    @features.should_receive(:new).with(:name => "feature_a",:active => true).and_return(stub(:save => true))
-    @features.stub(:exists?).and_return(false,true)
+    @features.should_receive(:new).with(name: "feature_a", active: true).and_return(stub(save: true))
+    @features.stub(:exists?).and_return(false, true)
 
     @repository.add_active_feature :feature_a
     expect {

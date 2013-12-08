@@ -5,6 +5,8 @@ Feature is a battle-tested [feature toggle](http://martinfowler.com/bliki/Featur
 The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active features (symbols!). Unknown features are assumed deactive.
 With this approach Feature is higly configurable and not bound to a specific kind of configuration.
 
+**NOTE:** Ruby 1.8 is only supported until version 0.7.0
+
 ## CI status
 
 [![Gem Version](https://badge.fury.io/rb/feature.png)](https://rubygems.org/gems/feature)
