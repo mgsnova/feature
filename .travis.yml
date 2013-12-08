@@ -6,4 +6,7 @@ rvm:
   - jruby-head
   - jruby-19mode
   - rbx
+matrix:
+  allow_failures:
+    - rvm: rbx
 before_install: gem install bundler
