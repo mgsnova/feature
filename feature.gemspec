@@ -2,7 +2,7 @@ require 'rubygems/package_task'
 
 Gem::Specification.new do |s|
   s.name = "feature"
-  s.version = "0.7.0"
+  s.version = "0.7.1"
 
   s.authors = ["Markus Gerdes"]
   s.email = %q{github@mgsnova.de}

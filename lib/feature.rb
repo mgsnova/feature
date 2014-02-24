@@ -22,8 +22,8 @@
 #
 module Feature
   require 'feature/repository'
-  # Only load the generator if Rails is defined
-  require 'feature/generators/install_generator' if defined?(Rails)
+  # Only load the generator if Rails is defined and Version is greater than 3
+  require 'feature/generators/install_generator' if defined?(Rails) and Rails::VERSION::STRING > "3"
 
   @repository = nil
   @active_features = nil
