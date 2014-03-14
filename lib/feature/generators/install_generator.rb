@@ -5,7 +5,7 @@ require 'rails/generators/active_record'
 module Feature
   class InstallGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
-    extend ActiveRecord::Generators::Migration
+    extend Rails::Generators::Migration
 
     desc 'This generator creates a migration and a model for FeatureToggles.'
     source_root File.expand_path('../templates', __FILE__)
