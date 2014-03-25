@@ -94,4 +94,18 @@ module Feature
 
     yield if inactive?(feature)
   end
+
+  # Return value or execute Proc/lambda depending on Feature status.
+  #
+  # @param [Symbol] feature
+  # @param [Object] value to be returned / lambda to be evaluated if feature is active
+  # @param [Object] value to be returned / lambda to be evaluated if feature is inactive
+  #
+  def self.switch(feature, l1, l2)
+    if active?(feature)
+      l1.is_a?(Proc) ? l1.call : l1
+    else
+      l2.is_a?(Proc) ? l2.call : l2
+    end
+  end
 end

@@ -135,5 +135,30 @@ describe Feature do
       end.should raise_error(ArgumentError, "no block given to without")
     end
 
+    describe 'switch()' do
+      context 'given a value' do
+        it "should return the first value if the feature is active" do
+          retval = Feature.switch(:feature_active, 1, 2)
+          expect(retval).to eq(1)
+        end
+
+        it "should return the second value if the feature is inactive" do
+          retval = Feature.switch(:feature_inactive, 1, 2)
+          expect(retval).to eq(2)
+        end
+      end
+
+      context 'given a proc/lambda' do
+        it "should call the first proc/lambda if the feature is active" do
+          retval = Feature.switch(:feature_active, lambda { 1 }, lambda { 2 })
+          expect(retval).to eq(1)
+        end
+
+        it "should call the second proc/lambda if the feature is active" do
+          retval = Feature.switch(:feature_inactive, lambda { 1 }, lambda { 2 })
+          expect(retval).to eq(2)
+        end
+      end
+    end
   end
 end

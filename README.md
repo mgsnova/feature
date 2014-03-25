@@ -40,6 +40,11 @@ With this approach Feature is higly configurable and not bound to a specific kin
           # code
         end
 
+        Feature.switch(:feature_name, e1, e2) # => e1 if feature is active, otherwise e2
+
+        # May also take Procs (here in Ruby 1.9 lambda syntax), returns code evaluation result.
+        Feature.switch(:feature_name, -> { code... }, -> { code... })
+
 * Use Feature in your test code (for reliable testing of feature depending code)
 
         require 'feature/testing'
