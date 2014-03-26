@@ -1,3 +1,10 @@
+## 1.0.0 (2014-03-26)
+
+* drop ruby 1.8 support
+* support Rails 4 generator loading only (mauriciovieira)
+* add Feature.switch method (FlavourSys)
+* minor code and doc fixes and cleanup
+
 ## 0.7.0 (2013-12-07)
 
 * add ActiveRecordRepository and a Rails::Generator (bigzed)

@@ -5,7 +5,7 @@
 # - to refresh the feature lists (request them from repository)
 #
 # @note all features not active will be handled has inactive
-# 
+#
 # Example usage:
 #   repository = SimpleRepository.new
 #   repository.add_active_feature(:feature_name)

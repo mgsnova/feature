@@ -5,7 +5,7 @@ Feature is a battle-tested [feature toggle](http://martinfowler.com/bliki/Featur
 The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active features (symbols!). Unknown features are assumed deactive.
 With this approach Feature is higly configurable and not bound to a specific kind of configuration.
 
-**NOTE:** Ruby 1.8 is only supported until version 0.7.0
+**NOTE:** Ruby 1.8 is only supported until version 0.7.0. Later Versions require at least Ruby 1.9.
 
 ## CI status
 
@@ -40,7 +40,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
           # code
         end
 
-        Feature.switch(:feature_name, e1, e2) # => e1 if feature is active, otherwise e2
+        Feature.switch(:feature_name, value_true, value_false) # => returns value_true if :feature_name is active, otherwise value_false
 
         # May also take Procs (here in Ruby 1.9 lambda syntax), returns code evaluation result.
         Feature.switch(:feature_name, -> { code... }, -> { code... })
