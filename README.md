@@ -28,7 +28,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 
 * Use Feature in your production code
 
-        Feature.active(:feature_name) # => true/false
+        Feature.active?(:feature_name) # => true/false
 
         Feature.deactive?(:feature_name) # => true/false
 
