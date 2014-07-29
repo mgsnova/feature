@@ -8,24 +8,24 @@ describe Feature::Repository::SimpleRepository do
   end
 
   it "should have no active features after initialization" do
-    @repository.active_features.should == []
+    expect(@repository.active_features).to eq([])
   end
 
   it "should add an active feature" do
     @repository.add_active_feature :feature_a
-    @repository.active_features.should == [:feature_a]
+    expect(@repository.active_features).to eq([:feature_a])
   end
 
   it "should raise an exception when adding not a symbol as active feature" do
-    lambda do
+    expect do
       @repository.add_active_feature 'feature_a'
-    end.should raise_error(ArgumentError, "given feature feature_a is not a symbol")
+    end.to raise_error(ArgumentError, "given feature feature_a is not a symbol")
   end
 
   it "should raise an exception when adding a active feature already added as active" do
     @repository.add_active_feature :feature_a
-    lambda do
+    expect do
       @repository.add_active_feature :feature_a
-    end.should raise_error(ArgumentError, "feature :feature_a already added to list of active features")
+    end.to raise_error(ArgumentError, "feature :feature_a already added to list of active features")
   end
 end

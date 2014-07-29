@@ -9,22 +9,22 @@ describe "Feature testing support" do
   end
 
   it "should execute code block with an deactivated feature" do
-    Feature.active?(:another_feature).should be_false
+    expect(Feature.active?(:another_feature)).to be_falsey
 
     Feature.run_with_activated(:another_feature) do
-      Feature.active?(:another_feature).should be_true
+      expect(Feature.active?(:another_feature)).to be_truthy
     end
 
-    Feature.active?(:another_feature).should be_false
+    expect(Feature.active?(:another_feature)).to be_falsey
   end
 
   it "should execute code block with an deactivated feature" do
-    Feature.active?(:active_feature).should be_true
+    expect(Feature.active?(:active_feature)).to be_truthy
 
     Feature.run_with_deactivated(:active_feature) do
-      Feature.active?(:active_feature).should be_false
+      expect(Feature.active?(:active_feature)).to be_falsey
     end
 
-    Feature.active?(:active_feature).should be_true
+    expect(Feature.active?(:active_feature)).to be_truthy
   end
 end

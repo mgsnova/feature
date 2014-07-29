@@ -25,7 +25,7 @@ EOF
     end
 
     it "should read active features from a config file" do
-      @repo.active_features.should == [:feature_a_active, :feature_b_active]
+      expect(@repo.active_features).to eq([:feature_a_active, :feature_b_active])
     end
 
     context "re-read config file" do
@@ -40,7 +40,7 @@ EOF
       end
 
       it "should read active features new on each request" do
-        @repo.active_features.should == [:feature_a_active]
+        expect(@repo.active_features).to eq([:feature_a_active])
       end
     end
 
@@ -55,7 +55,7 @@ EOF
       end
 
       it "should read active features new on each request" do
-        @repo.active_features.should == []
+        expect(@repo.active_features).to eq([])
       end
     end
 
@@ -78,16 +78,16 @@ EOF
       end
 
       it "should read active features from the config file" do
-        @repo.active_features.should == [:feature_a_active, :feature_b_active]
+        expect(@repo.active_features).to eq([:feature_a_active, :feature_b_active])
       end
     end
   end
 
   it "should raise exception on no file found" do
     repo = YamlRepository.new("/this/file/should/not/exist")
-    lambda do
+    expect do
       repo.active_features
-    end.should raise_error(Errno::ENOENT, /No such file or directory/)
+    end.to raise_error(Errno::ENOENT, /No such file or directory/)
   end
 
   it "should raise exception on invalid yaml" do
@@ -97,9 +97,9 @@ EOF
     fp.close
 
     repo = YamlRepository.new(@filename)
-    lambda do
+    expect do
       repo.active_features
-    end.should raise_error(ArgumentError, "content of #{@filename} does not contain proper config")
+    end.to raise_error(ArgumentError, "content of #{@filename} does not contain proper config")
   end
 
   it "should raise exception on not true/false value in config" do
@@ -112,8 +112,8 @@ EOF
     fp.close
 
     repo = YamlRepository.new(@filename)
-    lambda do
+    expect do
       repo.active_features
-    end.should raise_error(ArgumentError, "neither_true_or_false is not allowed value in config, use true/false")
+    end.to raise_error(ArgumentError, "neither_true_or_false is not allowed value in config, use true/false")
   end
 end
