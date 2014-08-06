@@ -15,5 +15,9 @@ module Feature
       template 'feature_toggle.rb', 'app/models/feature_toggle.rb'
       migration_template 'create_feature_toggles.rb', 'db/migrate/create_feature_toggles.rb'
     end
+
+    def self.next_migration_number(path)
+      ActiveRecord::Generators::Base.next_migration_number(path)
+    end
   end
 end
