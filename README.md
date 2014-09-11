@@ -2,7 +2,7 @@
 
 Feature is a battle-tested [feature toggle](http://martinfowler.com/bliki/FeatureToggle.html) library for ruby.
 
-The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active features (symbols!). Unknown features are assumed deactive.
+The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active features (symbols!). Unknown features are assumed inactive.
 With this approach Feature is higly configurable and not bound to a specific kind of configuration.
 
 **NOTE:** Ruby 1.8 is only supported until version 0.7.0. Later Versions require at least Ruby 1.9.
@@ -30,7 +30,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 
         Feature.active?(:feature_name) # => true/false
 
-        Feature.deactive?(:feature_name) # => true/false
+        Feature.inactive?(:feature_name) # => true/false
 
         Feature.with(:feature_name) do
           # code
