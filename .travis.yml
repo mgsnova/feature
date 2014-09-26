@@ -13,6 +13,7 @@ env:
 matrix:
   allow_failures:
     - rvm: rbx
+    - rvm: jruby-head
 before_install: gem install bundler
 script:
   - bundle exec rspec
