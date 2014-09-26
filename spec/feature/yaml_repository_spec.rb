@@ -72,8 +72,8 @@ production:
       feature_a: true
       feature_b: false
 EOF
-          fp.close
-        end
+        fp.close
+      end
 
       it "has two active features for development environment" do
         repo = YamlRepository.new(@filename, 'development')
