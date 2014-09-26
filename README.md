@@ -80,7 +80,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 ### Rails using YamlRepository
 
         # File: Gemfile
-        gem 'feature' # Or with version specifier, e.g. '~> 0.7.0'
+        gem 'feature'
 
         # File: config/feature.yml
         features:
@@ -100,7 +100,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 ### Rails using ActiveRecordRepository
 
         # File: Gemfile
-        gem 'feature' # Or with version specifier, e.g. '~> 0.7.0'
+        gem 'feature'
 
         # Run generator and migrations
         $ rails g feature:install
@@ -108,8 +108,8 @@ With this approach Feature is higly configurable and not bound to a specific kin
 
         # Add Features to table FeaturesToggle for example in
         # File: db/schema.rb
-        FeatureToggle.new(name: "ActiveFeature", active: true)
-        FeatureToggle.new(name: "InActiveFeature", active: false)
+        FeatureToggle.create!(name: "ActiveFeature", active: true)
+        FeatureToggle.create!(name: "InActiveFeature", active: false)
 
         # or in initializer
         # File: config/initializers/feature.rb
