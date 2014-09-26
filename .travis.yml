@@ -7,7 +7,13 @@ rvm:
   - jruby-head
   - jruby-19mode
   - rbx
+env:
+  - RAILS_VERSION=3
+  - RAILS_VERSION=4
 matrix:
   allow_failures:
     - rvm: rbx
 before_install: gem install bundler
+script:
+  - bundle exec rspec
+  - cd spec/integration/rails && ./test-against-specific-rails-version.sh
