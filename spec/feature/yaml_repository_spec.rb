@@ -59,6 +59,33 @@ EOF
       end
     end
 
+    context "with optional environment name" do
+      before(:each) do
+        fp = File.new(@filename, 'w')
+        fp.write <<"EOF";
+development:
+  features:
+      feature_a: true
+      feature_b: true
+production:
+  features:
+      feature_a: true
+      feature_b: false
+EOF
+          fp.close
+        end
+
+      it "has two active features for development environment" do
+        repo = YamlRepository.new(@filename, 'development')
+        expect(repo.active_features).to eq([:feature_a, :feature_b])
+      end
+
+      it "has one active feature for production environment" do
+        repo = YamlRepository.new(@filename, 'production')
+        expect(repo.active_features).to eq([:feature_a])
+      end
+    end
+
     # Sometimes needed when loading features from ENV variables or are time
     # based rules Ex: Date.today > Date.strptime('1/2/2012', '%d/%m/%Y')
     context "a config file with embedded erb" do

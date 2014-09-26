@@ -18,9 +18,11 @@ module Feature
       # Constructor
       #
       # @param [String] yaml_file_name the yaml config filename
+      # @param [String] environment optional environment to use from config
       #
-      def initialize(yaml_file_name)
+      def initialize(yaml_file_name, environment='')
         @yaml_file_name = yaml_file_name
+        @environment = environment
       end
 
       # Returns list of active features
@@ -41,6 +43,7 @@ module Feature
         raw_data = File.read(@yaml_file_name)
         evaluated_data = ERB.new(raw_data).result
         data = YAML.load(evaluated_data)
+        data = data[@environment] unless @environment.empty?
 
         if !data.is_a?(Hash) or !data.has_key?('features')
           raise ArgumentError, "content of #{@yaml_file_name} does not contain proper config"
