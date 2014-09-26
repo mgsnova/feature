@@ -96,6 +96,22 @@ With this approach Feature is higly configurable and not bound to a specific kin
           <%# Feature implementation goes here %>
         <% end %>
 
+You may also specify a Rails environment to use a new feature in development and test, but not production:
+
+        # File: config/feature.yml
+        development:
+            features:
+                a_new_feature: true
+        test:
+            features:
+                a_new_feature: true
+        production:
+            features:
+                a_new_feature: true
+
+        # File: config/initializers/feature.rb
+        repo = Feature::Repository::YamlRepository.new("#{Rails.root}/config/feature.yml", Rails.env)
+        Feature.set_repository repo
 
 ### Rails using ActiveRecordRepository
 
