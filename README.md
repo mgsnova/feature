@@ -107,7 +107,7 @@ You may also specify a Rails environment to use a new feature in development and
                 a_new_feature: true
         production:
             features:
-                a_new_feature: true
+                a_new_feature: false
 
         # File: config/initializers/feature.rb
         repo = Feature::Repository::YamlRepository.new("#{Rails.root}/config/feature.yml", Rails.env)
