@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem "rake"
+gem 'rake'
 
 group :test do
-  gem "rspec"
-  gem "rspec-mocks"
+  gem 'rspec'
+  gem 'rspec-mocks'
   gem 'coveralls', require: false
 end

@@ -23,7 +23,7 @@
 module Feature
   require 'feature/repository'
   # Only load the generator if Rails is defined and Version is greater than 3
-  require 'feature/generators/install_generator' if defined?(Rails) and Rails::VERSION::STRING > "3"
+  require 'feature/generators/install_generator' if defined?(Rails) && Rails::VERSION::STRING > '3'
 
   @repository = nil
   @active_features = nil
@@ -34,8 +34,8 @@ module Feature
   # @param [Object] repository the repository to get the features from
   #
   def self.set_repository(repository)
-    if !repository.respond_to?(:active_features)
-      raise ArgumentError, "given repository does not respond to active_features"
+    unless repository.respond_to?(:active_features)
+      fail ArgumentError, 'given repository does not respond to active_features'
     end
 
     @repository = repository
@@ -55,8 +55,8 @@ module Feature
   # @return [Boolean]
   #
   def self.active?(feature)
-    if !@repository
-      raise "Feature is missing Repository for obtaining feature lists"
+    unless @repository
+      fail 'Feature is missing Repository for obtaining feature lists'
     end
 
     @active_features.include?(feature)
@@ -76,8 +76,8 @@ module Feature
   # @param [Symbol] feature
   #
   def self.with(feature)
-    if !block_given?
-      raise ArgumentError, "no block given to #{__method__}"
+    unless block_given?
+      fail ArgumentError, "no block given to #{__method__}"
     end
 
     yield if active?(feature)
@@ -88,8 +88,8 @@ module Feature
   # @param [Symbol] feature
   #
   def self.without(feature)
-    if !block_given?
-      raise ArgumentError, "no block given to #{__method__}"
+    unless block_given?
+      fail ArgumentError, "no block given to #{__method__}"
     end
 
     yield if inactive?(feature)

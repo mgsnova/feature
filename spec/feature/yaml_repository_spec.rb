@@ -4,11 +4,11 @@ require 'tempfile'
 include Feature::Repository
 
 describe Feature::Repository::YamlRepository do
-  context "proper config file" do
+  context 'proper config file' do
     before(:each) do
       @filename = Tempfile.new(['feature_config', '.yaml']).path
       fp = File.new(@filename, 'w')
-      fp.write <<"EOF";
+      fp.write <<"EOF"
 features:
     feature_a_active: true
     feature_b_active: true
@@ -24,14 +24,14 @@ EOF
       File.delete(@filename)
     end
 
-    it "should read active features from a config file" do
+    it 'should read active features from a config file' do
       expect(@repo.active_features).to eq([:feature_a_active, :feature_b_active])
     end
 
-    context "re-read config file" do
+    context 're-read config file' do
       before(:each) do
         fp = File.new(@filename, 'w')
-        fp.write <<"EOF";
+        fp.write <<"EOF"
 features:
     feature_a_active: true
     feature_c_inactive: false
@@ -39,30 +39,30 @@ EOF
         fp.close
       end
 
-      it "should read active features new on each request" do
+      it 'should read active features new on each request' do
         expect(@repo.active_features).to eq([:feature_a_active])
       end
     end
 
     # For example, when all your features are in production and working fine.
-    context "with no features" do
+    context 'with no features' do
       before(:each) do
         fp = File.new(@filename, 'w')
-        fp.write <<"EOF";
+        fp.write <<"EOF"
 features:
 EOF
         fp.close
       end
 
-      it "should read active features new on each request" do
+      it 'should read active features new on each request' do
         expect(@repo.active_features).to eq([])
       end
     end
 
-    context "with optional environment name" do
+    context 'with optional environment name' do
       before(:each) do
         fp = File.new(@filename, 'w')
-        fp.write <<"EOF";
+        fp.write <<"EOF"
 development:
   features:
       feature_a: true
@@ -75,12 +75,12 @@ EOF
         fp.close
       end
 
-      it "has two active features for development environment" do
+      it 'has two active features for development environment' do
         repo = YamlRepository.new(@filename, 'development')
         expect(repo.active_features).to eq([:feature_a, :feature_b])
       end
 
-      it "has one active feature for production environment" do
+      it 'has one active feature for production environment' do
         repo = YamlRepository.new(@filename, 'production')
         expect(repo.active_features).to eq([:feature_a])
       end
@@ -88,11 +88,11 @@ EOF
 
     # Sometimes needed when loading features from ENV variables or are time
     # based rules Ex: Date.today > Date.strptime('1/2/2012', '%d/%m/%Y')
-    context "a config file with embedded erb" do
+    context 'a config file with embedded erb' do
       before(:each) do
         @filename = Tempfile.new(['feature_config', '.yaml']).path
         fp = File.new(@filename, 'w')
-        fp.write <<"EOF";
+        fp.write <<"EOF"
 features:
     feature_a_active: <%= 'true' == 'true' %>
     feature_b_active: true
@@ -104,23 +104,23 @@ EOF
         @repo = YamlRepository.new(@filename)
       end
 
-      it "should read active features from the config file" do
+      it 'should read active features from the config file' do
         expect(@repo.active_features).to eq([:feature_a_active, :feature_b_active])
       end
     end
   end
 
-  it "should raise exception on no file found" do
-    repo = YamlRepository.new("/this/file/should/not/exist")
+  it 'should raise exception on no file found' do
+    repo = YamlRepository.new('/this/file/should/not/exist')
     expect do
       repo.active_features
     end.to raise_error(Errno::ENOENT, /No such file or directory/)
   end
 
-  it "should raise exception on invalid yaml" do
+  it 'should raise exception on invalid yaml' do
     @filename = Tempfile.new(['feature_config', '.yaml']).path
     fp = File.new(@filename, 'w')
-    fp.write "this is not valid feature config"
+    fp.write 'this is not valid feature config'
     fp.close
 
     repo = YamlRepository.new(@filename)
@@ -129,10 +129,10 @@ EOF
     end.to raise_error(ArgumentError, "content of #{@filename} does not contain proper config")
   end
 
-  it "should raise exception on not true/false value in config" do
+  it 'should raise exception on not true/false value in config' do
     @filename = Tempfile.new(['feature_config', '.yaml']).path
     fp = File.new(@filename, 'w')
-    fp.write <<"EOF";
+    fp.write <<"EOF"
 features:
     invalid_feature: neither_true_or_false
 EOF
@@ -141,6 +141,6 @@ EOF
     repo = YamlRepository.new(@filename)
     expect do
       repo.active_features
-    end.to raise_error(ArgumentError, "neither_true_or_false is not allowed value in config, use true/false")
+    end.to raise_error(ArgumentError, 'neither_true_or_false is not allowed value in config, use true/false')
   end
 end

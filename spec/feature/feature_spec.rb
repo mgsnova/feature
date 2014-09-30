@@ -1,89 +1,89 @@
 require 'spec_helper'
 
 describe Feature do
-  context "without FeatureRepository" do
-    it "should raise an exception when calling active?" do
+  context 'without FeatureRepository' do
+    it 'should raise an exception when calling active?' do
       expect do
         Feature.active?(:feature_a)
-      end.to raise_error("Feature is missing Repository for obtaining feature lists")
+      end.to raise_error('Feature is missing Repository for obtaining feature lists')
     end
 
-    it "should raise an exception when calling inactive?" do
+    it 'should raise an exception when calling inactive?' do
       expect do
         Feature.inactive?(:feature_a)
-      end.to raise_error("Feature is missing Repository for obtaining feature lists")
+      end.to raise_error('Feature is missing Repository for obtaining feature lists')
     end
 
-    it "should raise an exception when calling with" do
+    it 'should raise an exception when calling with' do
       expect do
         Feature.with(:feature_a) do
         end
-      end.to raise_error("Feature is missing Repository for obtaining feature lists")
+      end.to raise_error('Feature is missing Repository for obtaining feature lists')
     end
 
-    it "should raise an exception when calling without" do
+    it 'should raise an exception when calling without' do
       expect do
         Feature.without(:feature_a) do
         end
-      end.to raise_error("Feature is missing Repository for obtaining feature lists")
+      end.to raise_error('Feature is missing Repository for obtaining feature lists')
     end
   end
 
-  context "setting Repository" do
+  context 'setting Repository' do
     before(:each) do
       @repository = Feature::Repository::SimpleRepository.new
       Feature.set_repository @repository
     end
 
-    it "should raise an exception when add repository with wrong class" do
+    it 'should raise an exception when add repository with wrong class' do
       expect do
-        Feature.set_repository("not a repository")
-      end.to raise_error(ArgumentError, "given repository does not respond to active_features")
+        Feature.set_repository('not a repository')
+      end.to raise_error(ArgumentError, 'given repository does not respond to active_features')
     end
 
-    it "should get active features from repository once" do
+    it 'should get active features from repository once' do
       @repository.add_active_feature(:feature_a)
       expect(Feature.active?(:feature_a)).to be_falsey
     end
   end
 
-  context "refresh features" do
+  context 'refresh features' do
     before(:each) do
       @repository = Feature::Repository::SimpleRepository.new
       Feature.set_repository @repository
     end
 
-    it "should refresh active feature lists from repository" do
+    it 'should refresh active feature lists from repository' do
       @repository.add_active_feature(:feature_a)
       Feature.refresh!
       expect(Feature.active?(:feature_a)).to be_truthy
     end
   end
 
-  context "request features" do
+  context 'request features' do
     before(:each) do
       repository = Feature::Repository::SimpleRepository.new
       repository.add_active_feature :feature_active
       Feature.set_repository repository
     end
 
-    it "should affirm active feature is active" do
+    it 'should affirm active feature is active' do
       expect(Feature.active?(:feature_active)).to be_truthy
     end
 
-    it "should not affirm active feature is inactive" do
+    it 'should not affirm active feature is inactive' do
       expect(Feature.inactive?(:feature_active)).to be_falsey
     end
 
-    it "should affirm inactive feature is inactive" do
+    it 'should affirm inactive feature is inactive' do
       expect(Feature.inactive?(:feature_inactive)).to be_truthy
     end
 
-    it "should not affirm inactive feature is active" do
+    it 'should not affirm inactive feature is active' do
       expect(Feature.active?(:feature_inactive)).to be_falsey
     end
 
-    it "should call block with active feature in active list" do
+    it 'should call block with active feature in active list' do
       reached = false
 
       Feature.with(:feature_active) do
@@ -93,7 +93,7 @@ describe Feature do
       expect(reached).to be_truthy
     end
 
-    it "should not call block with active feature not in active list" do
+    it 'should not call block with active feature not in active list' do
       reached = false
 
       Feature.with(:feature_inactive) do
@@ -103,13 +103,13 @@ describe Feature do
       expect(reached).to be_falsey
     end
 
-    it "should raise exception when no block given to with" do
+    it 'should raise exception when no block given to with' do
       expect do
         Feature.with(:feature_active)
-      end.to raise_error(ArgumentError, "no block given to with")
+      end.to raise_error(ArgumentError, 'no block given to with')
     end
 
-    it "should call block without inactive feature in inactive list" do
+    it 'should call block without inactive feature in inactive list' do
       reached = false
 
       Feature.without(:feature_inactive) do
@@ -119,7 +119,7 @@ describe Feature do
       expect(reached).to be_truthy
     end
 
-    it "should not call block without inactive feature in inactive list" do
+    it 'should not call block without inactive feature in inactive list' do
       reached = false
 
       Feature.without(:feature_active) do
@@ -129,32 +129,32 @@ describe Feature do
       expect(reached).to be_falsey
     end
 
-    it "should raise exception when no block given to without" do
+    it 'should raise exception when no block given to without' do
       expect do
         Feature.without(:feature_inactive)
-      end.to raise_error(ArgumentError, "no block given to without")
+      end.to raise_error(ArgumentError, 'no block given to without')
     end
 
     describe 'switch()' do
       context 'given a value' do
-        it "should return the first value if the feature is active" do
+        it 'should return the first value if the feature is active' do
           retval = Feature.switch(:feature_active, 1, 2)
           expect(retval).to eq(1)
         end
 
-        it "should return the second value if the feature is inactive" do
+        it 'should return the second value if the feature is inactive' do
           retval = Feature.switch(:feature_inactive, 1, 2)
           expect(retval).to eq(2)
         end
       end
 
       context 'given a proc/lambda' do
-        it "should call the first proc/lambda if the feature is active" do
+        it 'should call the first proc/lambda if the feature is active' do
           retval = Feature.switch(:feature_active, lambda { 1 }, lambda { 2 })
           expect(retval).to eq(1)
         end
 
-        it "should call the second proc/lambda if the feature is active" do
+        it 'should call the second proc/lambda if the feature is active' do
           retval = Feature.switch(:feature_inactive, lambda { 1 }, lambda { 2 })
           expect(retval).to eq(2)
         end

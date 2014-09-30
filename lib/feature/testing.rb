@@ -7,7 +7,6 @@ require 'feature'
 # To enable Feature testing capabilities do:
 #   require 'feature/testing'
 module Feature
-
   # Execute the code block with the given feature active
   #
   # Example usage:
