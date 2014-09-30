@@ -5,27 +5,27 @@ describe Feature do
     it 'should raise an exception when calling active?' do
       expect do
         Feature.active?(:feature_a)
-      end.to raise_error('Feature is missing Repository for obtaining feature lists')
+      end.to raise_error('missing Repository for obtaining feature lists')
     end
 
     it 'should raise an exception when calling inactive?' do
       expect do
         Feature.inactive?(:feature_a)
-      end.to raise_error('Feature is missing Repository for obtaining feature lists')
+      end.to raise_error('missing Repository for obtaining feature lists')
     end
 
     it 'should raise an exception when calling with' do
       expect do
         Feature.with(:feature_a) do
         end
-      end.to raise_error('Feature is missing Repository for obtaining feature lists')
+      end.to raise_error('missing Repository for obtaining feature lists')
     end
 
     it 'should raise an exception when calling without' do
       expect do
         Feature.without(:feature_a) do
         end
-      end.to raise_error('Feature is missing Repository for obtaining feature lists')
+      end.to raise_error('missing Repository for obtaining feature lists')
     end
   end
 
@@ -150,12 +150,12 @@ describe Feature do
 
       context 'given a proc/lambda' do
         it 'should call the first proc/lambda if the feature is active' do
-          retval = Feature.switch(:feature_active, lambda { 1 }, lambda { 2 })
+          retval = Feature.switch(:feature_active, -> { 1 }, -> { 2 })
           expect(retval).to eq(1)
         end
 
         it 'should call the second proc/lambda if the feature is active' do
-          retval = Feature.switch(:feature_inactive, lambda { 1 }, lambda { 2 })
+          retval = Feature.switch(:feature_inactive, -> { 1 }, -> { 2 })
           expect(retval).to eq(2)
         end
       end

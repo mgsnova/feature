@@ -126,7 +126,19 @@ EOF
     repo = YamlRepository.new(@filename)
     expect do
       repo.active_features
-    end.to raise_error(ArgumentError, "content of #{@filename} does not contain proper config")
+    end.to raise_error(ArgumentError, 'yaml config does not contain proper config')
+  end
+
+  it 'should raise exception on invalid yaml' do
+    @filename = Tempfile.new(['feature_config', '.yaml']).path
+    fp = File.new(@filename, 'w')
+    fp.write 'foo:'
+    fp.close
+
+    repo = YamlRepository.new(@filename, 'development')
+    expect do
+      repo.active_features
+    end.to raise_error(ArgumentError, 'yaml config does not contain proper config')
   end
 
   it 'should raise exception on not true/false value in config' do

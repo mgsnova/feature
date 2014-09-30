@@ -55,9 +55,7 @@ module Feature
   # @return [Boolean]
   #
   def self.active?(feature)
-    unless @repository
-      fail 'Feature is missing Repository for obtaining feature lists'
-    end
+    fail 'missing Repository for obtaining feature lists' unless @repository
 
     @active_features.include?(feature)
   end
@@ -76,9 +74,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.with(feature)
-    unless block_given?
-      fail ArgumentError, "no block given to #{__method__}"
-    end
+    fail ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if active?(feature)
   end
@@ -88,9 +84,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.without(feature)
-    unless block_given?
-      fail ArgumentError, "no block given to #{__method__}"
-    end
+    fail ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if inactive?(feature)
   end

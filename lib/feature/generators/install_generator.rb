@@ -3,6 +3,8 @@ require 'rails/generators/migration'
 require 'rails/generators/active_record'
 
 module Feature
+  # Rails generator for generating feature ActiveRecord model
+  # and migration step for creating the table
   class InstallGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
     extend Rails::Generators::Migration
