@@ -1,3 +1,11 @@
+## 1.1.0 (2014-09-30)
+
+* generator compatible with Rails 3/4 (mumoshu)
+* add LICENSE (pivotalfish)
+* add optional environment flag for YamlRepository (cherbst-medidata)
+* documentation fixes (asmega, crackofdusk)
+* update to rspec 3
+
 ## 1.0.0 (2014-03-26)
 
 * drop ruby 1.8 support
