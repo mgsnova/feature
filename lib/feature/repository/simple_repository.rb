@@ -1,7 +1,8 @@
 module Feature
   module Repository
     # SimpleRepository for active feature list
-    # Simply add features to that should be active, no config or data sources required
+    # Simply add features to that should be active,
+    # no config or data sources required.
     #
     # Example usage:
     #   repository = SimpleRepository.new
@@ -33,7 +34,7 @@ module Feature
         @active_features << feature
       end
 
-      # Checks if the given feature is a not symbol and raises an exception if so
+      # Checks that given feature is a symbol, raises exception otherwise
       #
       # @param [Sybmol] feature the feature to be checked
       #

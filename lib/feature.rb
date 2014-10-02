@@ -42,7 +42,8 @@ module Feature
     refresh!
   end
 
-  # Obtains list of active features from repository (for the case they change e.g. when using db-backed repository)
+  # Refreshes list of active features from repository.
+  # Useful when using an repository with external source.
   #
   def self.refresh!
     @active_features = @repository.active_features
@@ -92,8 +93,8 @@ module Feature
   # Return value or execute Proc/lambda depending on Feature status.
   #
   # @param [Symbol] feature
-  # @param [Object] value to be returned / lambda to be evaluated if feature is active
-  # @param [Object] value to be returned / lambda to be evaluated if feature is inactive
+  # @param [Object] value / lambda to use if feature is active
+  # @param [Object] value / lambda to use if feature is inactive
   #
   def self.switch(feature, l1, l2)
     if active?(feature)

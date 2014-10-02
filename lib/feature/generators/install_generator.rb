@@ -25,7 +25,8 @@ module Feature
     private
 
     def appropriate_feature_toggle_rb
-      # For Rails 4 + protected_attributes or Rails 3, we prefer the model with `attr_accessible` pre-populated
+      # For Rails 4 + protected_attributes or Rails 3,
+      # we prefer the model with `attr_accessible` pre-populated
       if ActiveRecord::Base.respond_to? :attr_accessible
         'feature_toggle.rb'
       else
