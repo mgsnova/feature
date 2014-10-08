@@ -1,3 +1,8 @@
+[![Gem Version](https://badge.fury.io/rb/feature.svg)](https://rubygems.org/gems/feature)
+[![Travis-CI Build Status](https://travis-ci.org/mgsnova/feature.svg)](https://travis-ci.org/mgsnova/feature)
+[![Code Climate](https://codeclimate.com/github/mgsnova/feature.svg)](https://codeclimate.com/github/mgsnova/feature)
+[![Coverage Status](http://img.shields.io/coveralls/mgsnova/feature/master.svg)](https://coveralls.io/r/mgsnova/feature)
+
 # Feature
 
 Feature is a battle-tested [feature toggle](http://martinfowler.com/bliki/FeatureToggle.html) library for ruby.
@@ -8,13 +13,6 @@ With this approach Feature is higly configurable and not bound to a specific kin
 **NOTE:** Ruby 1.8 is only supported until version 0.7.0. Later Versions require at least Ruby 1.9.
 
 **NOTE:** Using feature with ActiveRecord and Rails 3 MAY work. Use version 1.1.0 if you need support for Rails 3.
-
-## CI status
-
-[![Gem Version](https://badge.fury.io/rb/feature.png)](https://rubygems.org/gems/feature)
-[![Travis-CI Build Status](https://travis-ci.org/mgsnova/feature.png)](https://travis-ci.org/mgsnova/feature)
-[![Code Climate](https://codeclimate.com/github/mgsnova/feature.png)](https://codeclimate.com/github/mgsnova/feature)
-[![Coverage Status](https://coveralls.io/repos/mgsnova/feature/badge.png?branch=master)](https://coveralls.io/r/mgsnova/feature)
 
 ## Installation
 
