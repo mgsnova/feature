@@ -7,4 +7,5 @@ group :test do
   gem 'rspec-mocks'
   gem 'coveralls', require: false
   gem 'rubocop', require: false
+  gem 'fakeredis'
 end
