@@ -1,13 +1,13 @@
 module Feature
   module Repository
-    # SimpleRepository for active feature list
-    # Simply add features to that should be active,
-    # no config or data sources required.
+    # RedisRepository for active feature list
     #
     # Example usage:
-    #   repository = SimpleRepository.new
+    #   repository = RedisRepository.new("feature_toggles")
     #   repository.add_active_feature(:feature_name)
-    #   # use repository with Feature
+    #  
+    # 'feature_toggles' can be whatever name you want to use for
+    # the Redis hash that will store all of your feature toggles. 
     #
     class RedisRepository
       # Constructor
