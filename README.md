@@ -79,6 +79,35 @@ With this approach Feature is higly configurable and not bound to a specific kin
           puts "you can read this"
         end
 
+### Ruby or Rails using RedisRepository
+
+        # See here to learn how to configure redis: https://github.com/redis/redis-rb
+
+        # File: Gemfile
+        gem 'feature'
+        gem 'redis'
+
+        # setup code (or Rails initializer: config/initializers/feature.rb)
+        require 'feature'
+
+        repo = Feature::Repository::RedisRepository.new("feature_toggles")
+        Feature.set_repository repo
+
+        # production code
+        Feature.active?(:be_nice)
+        # => true
+
+        Feature.with(:be_nice) do
+          puts "you can read this"
+        end
+
+        # see all features in Redis
+        Redis.current.hgetall("feature_toggles")
+
+        # add/toggle features in Redis
+        Redis.current.hset("feature_toggles", "ActiveFeature", true)
+        Redis.current.hset("feature_toggles", "InActiveFeature", false)
+
 ### Rails using YamlRepository
 
         # File: Gemfile
