@@ -5,9 +5,9 @@ module Feature
     # Example usage:
     #   repository = RedisRepository.new("feature_toggles")
     #   repository.add_active_feature(:feature_name)
-    #  
+    #
     # 'feature_toggles' can be whatever name you want to use for
-    # the Redis hash that will store all of your feature toggles. 
+    # the Redis hash that will store all of your feature toggles.
     #
     class RedisRepository
       # Constructor
@@ -23,7 +23,7 @@ module Feature
       # @return [Array<Symbol>] list of active features
       #
       def active_features
-        Redis.current.hgetall(@redis_key).find_all { |k,v| v.to_s == "true" }.map { |k,v| k.to_sym }
+        Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
       end
 
       # Add an active feature to repository

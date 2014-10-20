@@ -4,7 +4,7 @@ include Feature::Repository
 
 describe Feature::Repository::RedisRepository do
   before(:each) do
-    @repository = RedisRepository.new("application_features")
+    @repository = RedisRepository.new('application_features')
   end
 
   it 'should have no active features after initialization' do
@@ -17,10 +17,10 @@ describe Feature::Repository::RedisRepository do
   end
 
   it 'should only show active feature' do
-    Redis.current.hset("application_features", "inactive_a", false)
-    Redis.current.hset("application_features", "inactive_b", false)
-    Redis.current.hset("application_features", "feature_a", true)
-    Redis.current.hset("application_features", "feature_b", true)
+    Redis.current.hset('application_features', 'inactive_a', false)
+    Redis.current.hset('application_features', 'inactive_b', false)
+    Redis.current.hset('application_features', 'feature_a', true)
+    Redis.current.hset('application_features', 'feature_b', true)
 
     expect(@repository.active_features).to eq([:feature_a, :feature_b])
   end
