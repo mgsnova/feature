@@ -41,7 +41,14 @@ describe Feature do
       end.to raise_error(ArgumentError, 'given repository does not respond to active_features')
     end
 
+    it 'should get active features lazy on first usage' do
+      @repository.add_active_feature(:feature_a)
+      # the line below will be the first usage of feature in this case
+      expect(Feature.active?(:feature_a)).to be_truthy
+    end
+
     it 'should get active features from repository once' do
+      Feature.active?(:does_not_matter)
       @repository.add_active_feature(:feature_a)
       expect(Feature.active?(:feature_a)).to be_falsey
     end
