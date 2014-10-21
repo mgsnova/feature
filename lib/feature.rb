@@ -39,7 +39,6 @@ module Feature
 
     @initial_refresh_done = false
     @repository = repository
-    refresh!
   end
 
   # Refreshes list of active features from repository.
@@ -47,6 +46,7 @@ module Feature
   #
   def self.refresh!
     @active_features = @repository.active_features
+    @initial_refresh_done = true
   end
 
   ##
@@ -57,21 +57,11 @@ module Feature
   #
   def self.active?(feature)
     fail 'missing Repository for obtaining feature lists' unless @repository
-    handle_initial_feature_import
+
+    refresh! unless @initial_refresh_done
 
     @active_features.include?(feature)
   end
-
-  # Perform the initial import/refresh of features
-  # from repository, on first usage of Feature
-  #
-  def self.handle_initial_feature_import
-    unless @initial_refresh_done
-      refresh!
-      @initial_refresh_done = true
-    end
-  end
-  private_class_method :handle_initial_feature_import
 
   # Requests if feature is inactive (or unknown)
   #
