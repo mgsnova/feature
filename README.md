@@ -10,6 +10,7 @@
 Feature is a battle-tested [feature toggle](http://martinfowler.com/bliki/FeatureToggle.html) library for ruby.
 
 The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active features (symbols!). Unknown features are assumed inactive.
+
 With this approach Feature is higly configurable and not bound to a specific kind of configuration.
 
 **NOTE:** Ruby 1.8 is only supported until version 0.7.0. Later Versions require at least Ruby 1.9.
@@ -24,7 +25,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
 
 * Setup Feature
     * Create a repository (see examples below)
-    * set repository to Feature
+    * Set repository to Feature
 
             Feature.set_repository(your_repository)
 
@@ -58,6 +59,25 @@ With this approach Feature is higly configurable and not bound to a specific kin
         Feature.run_with_deactivated(:feature_name) do
           # your test code
         end
+
+* Feature-toggle caching
+
+    * By default, Feature will lazy-load the active features from the
+      underlying repository the first time you try to check whether a
+      feature is set or not. 
+
+    * Subsequent toggle-status checks will access the cached, in-memory
+      representation of the toggle status, so changes to toggles in the 
+      underlying repository would not be reflected in the application
+      until you restart the application or manally call 
+
+            Feature.refresh!
+
+    * You can optionally pass in true as a second argument on
+      set_repository, to force Feature to auto-refresh the feature list
+      on every feature-toggle check you make.
+
+            Feature.set_repository(your_repository, true) 
 
 ## Examples
 

@@ -8,3 +8,5 @@ Gemfile.lock
 doc/
 .yardoc/
 coverage
+.ruby-gemset
+.ruby-version
