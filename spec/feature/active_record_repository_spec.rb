@@ -16,7 +16,7 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   it 'should have active features' do
-    allow(@features).to receive(:where).with(active: true) { [double(name: "active")] }
+    allow(@features).to receive(:where).with(active: true) { [double(name: 'active')] }
 
     expect(@repository.active_features).to eq([:active])
   end
