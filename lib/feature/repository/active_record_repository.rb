@@ -31,7 +31,7 @@ module Feature
       def add_active_feature(feature)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        @model.new(name: feature.to_s, active: true).save
+        @model.create!(name: feature.to_s, active: true)
       end
 
       # Checks if the given feature is a not symbol and raises an exception if so
@@ -39,7 +39,7 @@ module Feature
       # @param [Sybmol] feature the feature to be checked
       #
       def check_feature_is_not_symbol(feature)
-        fail ArgumentError, "#{feature} is not a symbol" unless feature.is_a?(Symbol)
+        fail ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
       end
       private :check_feature_is_not_symbol
 

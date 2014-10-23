@@ -10,14 +10,20 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   it 'should have no active features after initialization' do
-    allow(@features).to receive(:where) { Hash.new }
+    allow(@features).to receive(:where) { [] }
 
     expect(@repository.active_features).to eq([])
   end
 
+  it 'should have active features' do
+    allow(@features).to receive(:where).with(active: true) { [double(name: "active")] }
+
+    expect(@repository.active_features).to eq([:active])
+  end
+
   it 'should add an active feature' do
     expect(@features).to receive(:exists?).with('feature_a').and_return(false)
-    expect(@features).to receive(:new).with(name: 'feature_a', active: true).and_return(double(save: true))
+    expect(@features).to receive(:create!).with(name: 'feature_a', active: true)
 
     @repository.add_active_feature :feature_a
   end
@@ -29,7 +35,7 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   it 'should raise an exception when adding a active feature already added as active' do
-    expect(@features).to receive(:new).with(name: 'feature_a', active: true).and_return(double(save: true))
+    expect(@features).to receive(:create!).with(name: 'feature_a', active: true)
     allow(@features).to receive(:exists?).and_return(false, true)
 
     @repository.add_active_feature :feature_a

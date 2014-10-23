@@ -16,6 +16,12 @@ describe Feature::Repository::SimpleRepository do
     expect(@repository.active_features).to eq([:feature_a])
   end
 
+  it 'should add an feature without having impact on internal structure' do
+    list = @repository.active_features
+    @repository.add_active_feature :feature_a
+    expect(list).to eq([])
+  end
+
   it 'should raise an exception when adding not a symbol as active feature' do
     expect do
       @repository.add_active_feature 'feature_a'
