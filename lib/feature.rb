@@ -69,7 +69,7 @@ module Feature
   # @return [Boolean]
   #
   def self.inactive?(feature)
-    !self.active?(feature)
+    !active?(feature)
   end
 
   # Execute the given block if feature is active
@@ -100,9 +100,9 @@ module Feature
   #
   def self.switch(feature, l1, l2)
     if active?(feature)
-      l1.is_a?(Proc) ? l1.call : l1
+      l1.instance_of?(Proc) ? l1.call : l1
     else
-      l2.is_a?(Proc) ? l2.call : l2
+      l2.instance_of?(Proc) ? l2.call : l2
     end
   end
 end
