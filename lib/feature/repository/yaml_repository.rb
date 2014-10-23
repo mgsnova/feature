@@ -71,12 +71,12 @@ module Feature
 
         return [] unless data['features']
 
-        invalid_value = data['features'].values.find { |value| ![true, false].include?(value) }
-        if invalid_value
-          fail ArgumentError, "#{invalid_value} is not allowed value in config, use true/false"
+        invalid_value = data['features'].values.select { |value| ![true, false].include?(value) }
+        unless invalid_value.empty?
+          fail ArgumentError, "#{invalid_value.first} is not allowed value in config, use true/false"
         end
 
-        data['features'].keys.select { |key| data['features'][key] }.sort.map(&:to_sym)
+        data['features'].keys.select { |key| data['features'][key] }.map(&:to_sym)
       end
       private :get_active_features
     end

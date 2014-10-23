@@ -44,7 +44,6 @@ EOF
       end
     end
 
-    # For example, when all your features are in production and working fine.
     context 'with no features' do
       before(:each) do
         fp = File.new(@filename, 'w')
@@ -129,13 +128,16 @@ EOF
     end.to raise_error(ArgumentError, 'yaml config does not contain proper config')
   end
 
-  it 'should raise exception on invalid yaml' do
+  it 'should raise exception on yaml without features key' do
     @filename = Tempfile.new(['feature_config', '.yaml']).path
     fp = File.new(@filename, 'w')
-    fp.write 'foo:'
+    fp.write <<"EOF"
+fail:
+    feature: true
+EOF
     fp.close
 
-    repo = YamlRepository.new(@filename, 'development')
+    repo = YamlRepository.new(@filename)
     expect do
       repo.active_features
     end.to raise_error(ArgumentError, 'yaml config does not contain proper config')
