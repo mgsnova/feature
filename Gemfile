@@ -8,4 +8,6 @@ group :test do
   gem 'coveralls', require: false
   gem 'rubocop', require: false
   gem 'fakeredis'
+  gem 'mutant'
+  gem 'mutant-rspec'
 end
