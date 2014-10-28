@@ -1,3 +1,10 @@
+## 1.2.0 (2014-10-28)
+
+* add Support for auto-refresh of feature data (javidjamae)
+* read list of features at first usage instead of initialization (lazy-load)
+* add RedisRepository (javidjamae)
+* remove explicit Rails 3 Support of ActiveRecordRepository
+
 ## 1.1.0 (2014-09-30)
 
 * generator compatible with Rails 3/4 (mumoshu)
