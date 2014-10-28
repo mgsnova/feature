@@ -32,25 +32,50 @@ describe Feature do
   context 'setting Repository' do
     before(:each) do
       @repository = Feature::Repository::SimpleRepository.new
-      Feature.set_repository @repository
     end
 
-    it 'should raise an exception when add repository with wrong class' do
-      expect do
-        Feature.set_repository('not a repository')
-      end.to raise_error(ArgumentError, 'given repository does not respond to active_features')
+    context 'with auto_refresh set to false' do
+      before(:each) do
+        Feature.set_repository @repository
+      end
+      it 'should raise an exception when add repository with wrong class' do
+        expect do
+          Feature.set_repository('not a repository')
+        end.to raise_error(ArgumentError, 'given repository does not respond to active_features')
+      end
+
+      it 'should get active features lazy on first usage' do
+        @repository.add_active_feature(:feature_a)
+        # the line below will be the first usage of feature in this case
+        expect(Feature.active?(:feature_a)).to be_truthy
+      end
+
+      it 'should get active features from repository once' do
+        Feature.active?(:does_not_matter)
+        @repository.add_active_feature(:feature_a)
+        expect(Feature.active?(:feature_a)).to be_falsey
+      end
+
+      it 'should reload active features on first call only' do
+        @repository.add_active_feature(:feature_a)
+        expect(@repository).to receive(:active_features).exactly(1).times
+                           .and_return(@repository.active_features)
+        Feature.active?(:feature_a)
+        Feature.active?(:feature_a)
+      end
     end
 
-    it 'should get active features lazy on first usage' do
-      @repository.add_active_feature(:feature_a)
-      # the line below will be the first usage of feature in this case
-      expect(Feature.active?(:feature_a)).to be_truthy
-    end
-
-    it 'should get active features from repository once' do
-      Feature.active?(:does_not_matter)
-      @repository.add_active_feature(:feature_a)
-      expect(Feature.active?(:feature_a)).to be_falsey
+    context 'with auto_refresh set to true' do
+      before(:each) do
+        Feature.set_repository @repository, true
+      end
+      it 'should reload active features on every call' do
+        @repository.add_active_feature(:feature_a)
+        expect(@repository).to receive(:active_features).exactly(2).times
+                           .and_return(@repository.active_features)
+        Feature.active?(:feature_a)
+        Feature.active?(:feature_a)
+      end
     end
   end
 
