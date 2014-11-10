@@ -15,4 +15,4 @@ task :mutant do
   fail unless result == Mutant::CLI::EXIT_SUCCESS
 end
 
-task default: [:spec, :rubocop, :mutant]
+task default: [:spec, :rubocop]

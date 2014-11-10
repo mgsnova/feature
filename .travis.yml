@@ -13,5 +13,5 @@ matrix:
     - rvm: jruby-head
 before_install: gem install bundler
 script:
-  - bundle exec rspec
+  - bundle exec rake
   - cd spec/integration/rails && ./test-against-several-rails-versions.sh
