@@ -1,2 +1,6 @@
 Metrics/LineLength:
   Max: 120
+
+# Offense count: 1
+Style/AccessorMethodName:
+  Enabled: false
