@@ -58,8 +58,7 @@ describe Feature do
 
       it 'should reload active features on first call only' do
         @repository.add_active_feature(:feature_a)
-        expect(@repository).to receive(:active_features).exactly(1).times
-                           .and_return(@repository.active_features)
+        expect(@repository).to receive(:active_features).once.and_return(@repository.active_features)
         Feature.active?(:feature_a)
         Feature.active?(:feature_a)
       end
@@ -71,8 +70,7 @@ describe Feature do
       end
       it 'should reload active features on every call' do
         @repository.add_active_feature(:feature_a)
-        expect(@repository).to receive(:active_features).exactly(2).times
-                           .and_return(@repository.active_features)
+        expect(@repository).to receive(:active_features).twice.and_return(@repository.active_features)
         Feature.active?(:feature_a)
         Feature.active?(:feature_a)
       end

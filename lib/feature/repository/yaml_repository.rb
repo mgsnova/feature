@@ -71,14 +71,23 @@ module Feature
 
         return [] unless data['features']
 
-        invalid_value = data['features'].values.select { |value| ![true, false].include?(value) }
-        unless invalid_value.empty?
-          fail ArgumentError, "#{invalid_value.first} is not allowed value in config, use true/false"
-        end
+        check_valid_feature_data(data['features'])
 
         data['features'].keys.select { |key| data['features'][key] }.map(&:to_sym)
       end
       private :get_active_features
+
+      # Checks for valid values in given feature hash
+      #
+      # @param features [Hash] feature hash
+      #
+      def check_valid_feature_data(features)
+        features.values.each do |value|
+          unless [true, false].include?(value)
+            fail ArgumentError, "#{value} is not allowed value in config, use true/false"
+          end
+        end
+      end
     end
   end
 end
