@@ -1,15 +1,15 @@
 language: ruby
 rvm:
   - ruby-head
-  - 2.1.5
+  - 2.1
   - 2.0.0
   - 1.9.3
   - jruby-head
-  - jruby-19mode
-  - rbx
+  - jruby
+  - rbx-2
 matrix:
   allow_failures:
-    - rvm: rbx
+    - rvm: rbx-2
     - rvm: jruby-head
 before_install: gem install bundler
 script:
