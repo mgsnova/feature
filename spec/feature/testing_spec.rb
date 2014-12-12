@@ -11,17 +11,26 @@ describe 'Feature testing support' do
   before do
     expect(Feature.active?(:active_feature)).to be_truthy
     expect(Feature.active?(:deactive_feature)).to be_falsey
+    expect(Feature.active?(:another_deactive_feature)).to be_falsey
   end
 
   after do
     expect(Feature.active?(:active_feature)).to be_truthy
     expect(Feature.active?(:deactive_feature)).to be_falsey
+    expect(Feature.active?(:another_deactive_feature)).to be_falsey
   end
 
   describe '.run_with_activated' do
     it 'activates a deactivated feature' do
       Feature.run_with_activated(:deactive_feature) do
         expect(Feature.active?(:deactive_feature)).to be_truthy
+      end
+    end
+
+    it 'activates multiple deactivated features' do
+      Feature.run_with_activated(:deactive_feature, :another_deactive_feature) do
+        expect(Feature.active?(:deactive_feature)).to be_truthy
+        expect(Feature.active?(:another_deactive_feature)).to be_truthy
       end
     end
   end
