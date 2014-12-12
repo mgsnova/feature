@@ -56,7 +56,7 @@ With this approach Feature is higly configurable and not bound to a specific kin
           # your test code
         end
 
-        Feature.run_with_deactivated(:feature_name) do
+        Feature.run_with_deactivated(:feature, :another_feature) do
           # your test code
         end
 

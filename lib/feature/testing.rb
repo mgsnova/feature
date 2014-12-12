@@ -21,15 +21,15 @@ module Feature
     @active_features = old_features
   end
 
-  # Execute the code block with the given feature deactive
+  # Execute the code block with the given features deactive
   #
   # Example usage:
-  #   Feature.run_with_deactivated(:feature) do
+  #   Feature.run_with_deactivated(:feature, :another_feature) do
   #     # your test code here
   #   end
-  def self.run_with_deactivated(feature)
+  def self.run_with_deactivated(*features)
     old_features = @active_features.dup
-    @active_features.delete(feature)
+    @active_features -= features
     yield
   ensure
     @active_features = old_features
