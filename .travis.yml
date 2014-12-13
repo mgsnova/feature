@@ -3,9 +3,7 @@ rvm:
   - ruby-head
   - 2.1
   - 2.0.0
-  - 1.9.3
   - jruby-head
-  - jruby
   - rbx-2
 matrix:
   allow_failures:
