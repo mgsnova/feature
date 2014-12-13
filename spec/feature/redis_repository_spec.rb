@@ -37,5 +37,4 @@ describe Feature::Repository::RedisRepository do
       @repository.add_active_feature :feature_a
     end.to raise_error(ArgumentError, 'feature :feature_a already added')
   end
-
 end
