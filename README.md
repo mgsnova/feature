@@ -52,11 +52,11 @@ With this approach Feature is higly configurable and not bound to a specific kin
 
         require 'feature/testing'
 
-        Feature.run_with_activated(:feature_name) do
+        Feature.run_with_activated(:feature, :another_feature) do
           # your test code
         end
 
-        Feature.run_with_deactivated(:feature_name) do
+        Feature.run_with_deactivated(:feature, :another_feature) do
           # your test code
         end
 
