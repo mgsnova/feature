@@ -29,9 +29,7 @@ module Feature
       # Returns the Redis hash key used to store the feature toggle data
       #
       # @return [String] the redis hash key
-      def redis_key
-        @redis_key
-      end
+      attr_reader :redis_key
 
       # Add an active feature to repository
       #

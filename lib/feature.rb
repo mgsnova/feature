@@ -47,8 +47,8 @@ module Feature
   #
   # @return [Object] the repository to get the features from
   #
-  def self.get_repository
-    @repository
+  class << self
+    attr_reader :repository
   end
 
   # Refreshes list of active features from repository.

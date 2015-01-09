@@ -191,13 +191,12 @@ You may also specify a Rails environment to use a new feature in development and
 
 ## Tasks
 
-Feature offers rake tasks to help work with feature toggles.
+Feature provides rake tasks to help manage feature toggles.
 
 ### RedisRepository rake tasks
 
-If you are using redis, you can use the following rake tasks. The task
-will utilize whatever Redis key you defined in your application
-initializer.
+If you are using Redis, you can use the following rake tasks. The tasks
+will utilize the Redis key you defined in your application initializer.
 
         # List all of your existing toggles
         rake feature:redis:list
@@ -215,7 +214,7 @@ initializer.
         rake feature:redis:disable[toggle_name]
 
 If you want to create your own rake tasks that use these tasks, you can
-include the feature rake tasks in your rakefile as follows:
+include the above rake tasks in your rakefile as follows:
 
         # In myapp/lib/tasks/myrakefile.rake
         spec = Gem::Specification.find_by_name 'feature'

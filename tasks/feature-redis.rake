@@ -1,56 +1,55 @@
 namespace :feature do
   namespace :redis do
-
-    task :list => :environment do
+    task list: :environment do
       exit_if_not_using_redis
       puts "Feature toggles stored under Redis key '#{redis_key}':"
       puts Redis.current.hgetall(redis_key)
     end
 
-    task :enable, [:name] => :environment do |t, args|
+    task :enable, [:name] => :environment do |_t, args|
       exit_if_not_using_redis
       if args[:name]
         enable_toggle(args[:name])
       else
-        puts "Usage: rake toggles:enable[toggle_name]"
+        puts 'Usage: rake toggles:enable[toggle_name]'
       end
     end
 
-    task :disable, [:name] => :environment do |t, args|
+    task :disable, [:name] => :environment do |_t, args|
       exit_if_not_using_redis
       if args[:name]
         disable_toggle(args[:name])
       else
-        puts "Usage: rake toggles:disable[toggle_name]"
+        puts 'Usage: rake toggles:disable[toggle_name]'
       end
     end
 
-    task :delete, [:name] => :environment do |t, args|
+    task :delete, [:name] => :environment do |_t, args|
       exit_if_not_using_redis
       if args[:name]
         delete_toggle(args[:name]) if args[:name]
       else
-        puts "Usage: rake toggles:delete[toggle_name]"
+        puts 'Usage: rake toggles:delete[toggle_name]'
       end
     end
 
-    task :create, [:name] => :environment do |t, args|
+    task :create, [:name] => :environment do |_t, args|
       exit_if_not_using_redis
       if args[:name]
         create_toggle(args[:name]) if args[:name]
       else
-        puts "Usage: rake toggles:create[toggle_name]"
+        puts 'Usage: rake toggles:create[toggle_name]'
       end
     end
 
     def redis_key
       exit_if_not_using_redis
-      Feature.get_repository.redis_key
+      Feature.repository.redis_key
     end
 
     def exit_if_not_using_redis
-      unless Feature.get_repository.class == Feature::Repository::RedisRepository
-        STDERR.puts "RedisRepository not initialized for this application"
+      unless Feature.repository.class == Feature::Repository::RedisRepository
+        STDERR.puts 'RedisRepository not initialized for this application'
         exit 1
       end
     end
@@ -90,7 +89,5 @@ namespace :feature do
         puts "Couldn't enable toggle because it doesn't exist: #{toggle_name}"
       end
     end
-
   end
 end
-
