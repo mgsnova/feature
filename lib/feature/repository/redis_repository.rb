@@ -26,6 +26,13 @@ module Feature
         Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
       end
 
+      # Returns the Redis hash key used to store the feature toggle data
+      #
+      # @return [String] the redis hash key
+      def redis_key
+        @redis_key
+      end
+
       # Add an active feature to repository
       #
       # @param [Symbol] feature the feature to be added

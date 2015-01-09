@@ -188,3 +188,49 @@ You may also specify a Rails environment to use a new feature in development and
         <% if Feature.active?(:an_active_feature) %>
           <%# Feature implementation goes here %>
         <% end %>
+
+## Tasks
+
+Feature offers rake tasks to help work with feature toggles.
+
+### RedisRepository rake tasks
+
+If you are using redis, you can use the following rake tasks. The task
+will utilize whatever Redis key you defined in your application
+initializer.
+
+        # List all of your existing toggles
+        rake feature:redis:list
+
+        # Create a new toggle
+        rake feature:redis:create[toggle_name]
+
+        # Delete an existing toggle
+        rake feature:redis:delete[toggle_name]
+
+        # Enable an existing toggle
+        rake feature:redis:enable[toggle_name]
+
+        # Disable an existing toggle
+        rake feature:redis:disable[toggle_name]
+
+If you want to create your own rake tasks that use these tasks, you can
+include the feature rake tasks in your rakefile as follows:
+
+        # In myapp/lib/tasks/myrakefile.rake
+        spec = Gem::Specification.find_by_name 'feature'
+        load "#{spec.gem_dir}/tasks/feature-redis.rake"
+
+        namespace :my_feature_toggles_tasks do
+          task :create_all_missing_toggles => :environment do
+            create_toggle(:new_toggle_1)
+            create_toggle(:new_toggle_2)
+          end
+          task :enable_all_live_features => :environment do
+            enable_toggle(:new_toggle_1)
+          end
+          task :prune_all_old_toggles => :environment do
+            delete_toggle(:new_toggle_1)
+            delete_toggle(:old_toggle)
+          end
+        end
