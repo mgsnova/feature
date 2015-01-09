@@ -48,17 +48,19 @@ namespace :feature do
     end
 
     def exit_if_not_using_redis
-      unless Feature.repository.class == Feature::Repository::RedisRepository
-        STDERR.puts 'RedisRepository not initialized for this application'
-        exit 1
-      end
+      STDERR.puts 'RedisRepository not initialized for this application' unless using_redis?
+      exit 1 unless using_redis?
+    end
+
+    def using_redis?
+      Feature.repository.class == Feature::Repository::RedisRepository
     end
 
     def create_toggle(toggle_name)
       if Redis.current.hexists(redis_key, toggle_name.to_s)
         puts "Couldn't create toggle because it already exists: #{toggle_name}"
       else
-        Redis.current.hset(redis_key, toggle_name.to_s, "false")
+        Redis.current.hset(redis_key, toggle_name.to_s, 'false')
         puts "Created toggle and set it to false: #{toggle_name}"
       end
     end
@@ -74,7 +76,7 @@ namespace :feature do
 
     def disable_toggle(toggle_name)
       if Redis.current.hexists(redis_key, toggle_name.to_s)
-        Redis.current.hset(redis_key, toggle_name.to_s, "false")
+        Redis.current.hset(redis_key, toggle_name.to_s, 'false')
         puts "Set toggle to false: #{toggle_name}"
       else
         puts "Couldn't disable toggle because it doesn't exist: #{toggle_name}"
@@ -83,7 +85,7 @@ namespace :feature do
 
     def enable_toggle(toggle_name)
       if Redis.current.hexists(redis_key, toggle_name.to_s)
-        Redis.current.hset(redis_key, toggle_name.to_s, "true")
+        Redis.current.hset(redis_key, toggle_name.to_s, 'true')
         puts "Set toggle to true: #{toggle_name}"
       else
         puts "Couldn't enable toggle because it doesn't exist: #{toggle_name}"
