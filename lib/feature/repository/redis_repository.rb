@@ -31,7 +31,7 @@ module Feature
       # @return [Array<Symbol>] list of all defined features
       #
       def all_features
-        Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
+        Redis.current.hgetall(@redis_key)
       end
 
       # Returns the Redis hash key used to store the feature toggle data
@@ -90,7 +90,8 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_already_in_list(feature)
-        fail ArgumentError, "feature :#{feature.to_sym} already added" if Redis.current.hexists(@redis_key, feature.to_sym)
+        fail ArgumentError, "feature :#{feature.to_sym} already added" if
+          Redis.current.hexists(@redis_key, feature.to_sym)
       end
       private :check_feature_already_in_list
 
@@ -100,7 +101,8 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_not_in_list(feature)
-        fail ArgumentError, "feature :#{feature.to_sym} doesn't exist" unless Redis.current.hexists(@redis_key, feature.to_sym)
+        fail ArgumentError, "feature :#{feature.to_sym} doesn't exist" unless
+          Redis.current.hexists(@redis_key, feature.to_sym)
       end
       private :check_feature_not_in_list
     end

@@ -58,7 +58,7 @@ namespace :feature do
     end
 
     def check_repository_is_not_redis
-      fail Error, "RedisRepository not initialized for this application" unless using_redis?
+      fail Error, 'RedisRepository not initialized for this application' unless using_redis?
     end
 
     def using_redis?
