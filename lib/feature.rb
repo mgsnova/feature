@@ -43,6 +43,14 @@ module Feature
     @repository = repository
   end
 
+  # Get the feature repository
+  #
+  # @return [Object] the repository to get the features from
+  #
+  class << self
+    attr_reader :repository
+  end
+
   # Refreshes list of active features from repository.
   # Useful when using an repository with external source.
   #

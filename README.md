@@ -188,3 +188,79 @@ You may also specify a Rails environment to use a new feature in development and
         <% if Feature.active?(:an_active_feature) %>
           <%# Feature implementation goes here %>
         <% end %>
+
+## Tasks
+
+Feature provides rake tasks to help manage feature toggles.
+
+### RedisRepository rake tasks
+
+If you are using Redis, you can use the following rake tasks. The tasks
+will utilize the Redis key you defined in your application initializer.
+
+        # List all of your defined features (active and inactive)
+        rake feature:redis:list
+
+        # List all of your active features
+        rake feature:redis:list_active
+
+        # Add a new feature toggle
+        rake feature:redis:add[feature_name]
+
+        # Remove an existing feature toggle
+        rake feature:redis:remove[feature_name]
+
+        # Activate an existing feature
+        rake feature:redis:activate[feature_name]
+
+        # Deactivate an existing feature
+        rake feature:redis:deactivate[feature_name]
+
+If you want to create your own rake tasks that do more, you can call the 
+same methods that the above rake tasks use yourself. 
+
+        # In myapp/lib/tasks/myrakefile.rake
+        namespace :my_feature_toggles do
+          task :create_all_missing_toggles => :environment do
+            add(:new_toggle_1)
+            add(:new_toggle_2)
+          end
+          task :enable_all_live_features => :environment do
+            activate(:new_toggle_1)
+          end
+          task :prune_all_old_toggles => :environment do
+            remove(:old_toggle_1)
+            remove(:old_toggle_2)
+          end
+
+          def add(feature)
+            check_repository_is_not_redis
+            Feature.repository.add_inactive_feature(feature)
+            puts "Added new (inactive) feature: #{feature}"
+          end
+
+          def activate(feature)
+            check_repository_is_not_redis
+            Feature.repository.activate_feature(feature)
+            puts "Activated feature: #{feature}"
+          end
+
+          def remove(feature)
+            check_repository_is_not_redis
+            Feature.repository.remove_feature(feature)
+            puts "Removed feature: #{feature}"
+          end
+
+          def redis_key
+            check_repository_is_not_redis
+            Feature.repository.redis_key
+          end
+
+          def check_repository_is_not_redis
+            fail Error, "RedisRepository not initialized for this application" unless using_redis?
+          end
+
+          def using_redis?
+            Feature.repository.class == Feature::Repository::RedisRepository
+          end
+        end
