@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'feature/testing'
 
-shared_examples "a testable repository" do
+shared_examples 'a testable repository' do
   before do
     expect(Feature.active?(:active_feature)).to be_truthy
     expect(Feature.active?(:another_active_feature)).to be_truthy
@@ -48,7 +48,7 @@ shared_examples "a testable repository" do
 end
 
 describe 'Feature testing support' do
-  context "without auto_refresh" do
+  context 'without auto_refresh' do
     before(:all) do
       repository = Feature::Repository::SimpleRepository.new
       repository.add_active_feature(:active_feature)
@@ -56,10 +56,10 @@ describe 'Feature testing support' do
       Feature.set_repository(repository)
     end
 
-    it_behaves_like "a testable repository"
+    it_behaves_like 'a testable repository'
   end
 
-  context "with auto_refresh" do
+  context 'with auto_refresh' do
     before(:all) do
       repository = Feature::Repository::SimpleRepository.new
       repository.add_active_feature(:active_feature)
@@ -67,6 +67,6 @@ describe 'Feature testing support' do
       Feature.set_repository(repository, true)
     end
 
-    it_behaves_like "a testable repository"
+    it_behaves_like 'a testable repository'
   end
 end
