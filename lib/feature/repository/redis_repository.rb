@@ -26,6 +26,14 @@ module Feature
         Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
       end
 
+      # Returns list of all defined features (whether active or inactive)
+      #
+      # @return [Array<Symbol>] list of all defined features
+      #
+      def all_features
+        Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
+      end
+
       # Returns the Redis hash key used to store the feature toggle data
       #
       # @return [String] the redis hash key
@@ -33,22 +41,48 @@ module Feature
 
       # Add an active feature to repository
       #
-      # @param [Symbol] feature the feature to be added
+      # @param [Symbol] feature the feature to be added (param will be coerced into a Symbol using to_sym)
       #
       def add_active_feature(feature)
-        check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        Redis.current.hset(@redis_key, feature, true)
+        Redis.current.hset(@redis_key, feature.to_sym, true)
       end
 
-      # Checks that given feature is a symbol, raises exception otherwise
+      # Add an inactive feature to repository
       #
-      # @param [Sybmol] feature the feature to be checked
+      # @param [Symbol] feature the feature to be added (param will be coerced into a Symbol using to_sym)
       #
-      def check_feature_is_not_symbol(feature)
-        fail ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
+      def add_inactive_feature(feature)
+        check_feature_already_in_list(feature)
+        Redis.current.hset(@redis_key, feature.to_sym, false)
       end
-      private :check_feature_is_not_symbol
+
+      # Remove a feature from the repository
+      #
+      # @param [Symbol] feature the feature to remove (param will be coerced into a Symbol using to_sym)
+      #
+      def remove_feature(feature)
+        check_feature_not_in_list(feature)
+        Redis.current.hdel(@redis_key, feature.to_sym)
+      end
+
+      # Deactivate a feature in the repository
+      #
+      # @param [Symbol] feature the feature to deactivate
+      #
+      def deactivate_feature(feature)
+        check_feature_not_in_list(feature)
+        Redis.current.hset(@redis_key, feature.to_sym, false)
+      end
+
+      # Activate a feature in the repository
+      #
+      # @param [Symbol] feature the feature to activate
+      #
+      def activate_feature(feature)
+        check_feature_not_in_list(feature)
+        Redis.current.hset(redis_key, feature.to_sym, true)
+      end
 
       # Checks if given feature is already added to list of active features
       # and raises an exception if so
@@ -56,9 +90,19 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_already_in_list(feature)
-        fail ArgumentError, "feature :#{feature} already added" if Redis.current.hexists(@redis_key, feature)
+        fail ArgumentError, "feature :#{feature.to_sym} already added" if Redis.current.hexists(@redis_key, feature.to_sym)
       end
       private :check_feature_already_in_list
+
+      # Checks if given feature is not already in the list of active features
+      # and raises an exception if not
+      #
+      # @param [Symbol] feature the feature to be checked
+      #
+      def check_feature_not_in_list(feature)
+        fail ArgumentError, "feature :#{feature.to_sym} doesn't exist" unless Redis.current.hexists(@redis_key, feature.to_sym)
+      end
+      private :check_feature_not_in_list
     end
   end
 end

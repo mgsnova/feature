@@ -198,38 +198,69 @@ Feature provides rake tasks to help manage feature toggles.
 If you are using Redis, you can use the following rake tasks. The tasks
 will utilize the Redis key you defined in your application initializer.
 
-        # List all of your existing toggles
+        # List all of your defined features (active and inactive)
         rake feature:redis:list
 
-        # Create a new toggle
-        rake feature:redis:create[toggle_name]
+        # List all of your active features
+        rake feature:redis:list_active
 
-        # Delete an existing toggle
-        rake feature:redis:delete[toggle_name]
+        # Add a new feature toggle
+        rake feature:redis:add[feature_name]
 
-        # Enable an existing toggle
-        rake feature:redis:enable[toggle_name]
+        # Remove an existing feature toggle
+        rake feature:redis:remove[feature_name]
 
-        # Disable an existing toggle
-        rake feature:redis:disable[toggle_name]
+        # Activate an existing feature
+        rake feature:redis:activate[feature_name]
 
-If you want to create your own rake tasks that use these tasks, you can
-include the above rake tasks in your rakefile as follows:
+        # Deactivate an existing feature
+        rake feature:redis:deactivate[feature_name]
+
+If you want to create your own rake tasks that do more, you can call the 
+same methods that the above rake tasks use yourself. 
 
         # In myapp/lib/tasks/myrakefile.rake
-        spec = Gem::Specification.find_by_name 'feature'
-        load "#{spec.gem_dir}/tasks/feature-redis.rake"
-
-        namespace :my_feature_toggles_tasks do
+        namespace :my_feature_toggles do
           task :create_all_missing_toggles => :environment do
-            create_toggle(:new_toggle_1)
-            create_toggle(:new_toggle_2)
+            add(:new_toggle_1)
+            add(:new_toggle_2)
           end
           task :enable_all_live_features => :environment do
-            enable_toggle(:new_toggle_1)
+            activate(:new_toggle_1)
           end
           task :prune_all_old_toggles => :environment do
-            delete_toggle(:new_toggle_1)
-            delete_toggle(:old_toggle)
+            remove(:old_toggle_1)
+            remove(:old_toggle_2)
+          end
+
+          def add(feature)
+            check_repository_is_not_redis
+            Feature.repository.add_inactive_feature(feature)
+            puts "Added new (inactive) feature: #{feature}"
+          end
+
+          def activate(feature)
+            check_repository_is_not_redis
+            Feature.repository.activate_feature(feature)
+            puts "Activated feature: #{feature}"
+          end
+
+          def remove(feature)
+            check_repository_is_not_redis
+            Feature.repository.remove_feature(feature)
+            puts "Removed feature: #{feature}"
+          end
+
+          def redis_key
+            check_repository_is_not_redis
+            Feature.repository.redis_key
+          end
+
+          def check_repository_is_not_redis
+            fail Error, "RedisRepository not initialized for this application" unless using_redis?
+          end
+
+          def using_redis?
+            Feature.repository.class == Feature::Repository::RedisRepository
           end
         end
