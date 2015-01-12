@@ -25,10 +25,9 @@ describe Feature::Repository::RedisRepository do
     expect(@repository.active_features).to eq([:feature_a, :feature_b])
   end
 
-  it 'should raise an exception when adding not a symbol as active feature' do
-    expect do
-      @repository.add_active_feature 'feature_a'
-    end.to raise_error(ArgumentError, 'feature_a is not a symbol')
+  it 'should coerce input type into a symbol' do
+    @repository.add_active_feature 'feature_a'
+    expect(@repository.active_features).to eq([:feature_a])
   end
 
   it 'should raise an exception when adding a active feature already added as active' do
