@@ -14,6 +14,7 @@ module Feature
   #     # your test code here
   #   end
   def self.run_with_activated(*features)
+    @active_features = [] if @active_features.nil?
     old_features = @active_features.dup
     old_auto_refresh = @auto_refresh
     @active_features.concat(features).uniq!
@@ -31,6 +32,7 @@ module Feature
   #     # your test code here
   #   end
   def self.run_with_deactivated(*features)
+    @active_features = [] if @active_features.nil?
     old_features = @active_features.dup
     old_auto_refresh = @auto_refresh
     @active_features -= features
