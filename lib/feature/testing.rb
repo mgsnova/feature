@@ -16,12 +16,15 @@ module Feature
   def self.run_with_activated(*features)
     old_features = @active_features.dup
     old_auto_refresh = @auto_refresh
+    old_perform_initial_refresh = @perform_initial_refresh
     @active_features.concat(features).uniq!
     @auto_refresh = false
+    @perform_initial_refresh = false
     yield
   ensure
     @active_features = old_features
     @auto_refresh = old_auto_refresh
+    @perform_initial_refresh = old_perform_initial_refresh
   end
 
   # Execute the code block with the given features deactive
@@ -33,11 +36,14 @@ module Feature
   def self.run_with_deactivated(*features)
     old_features = @active_features.dup
     old_auto_refresh = @auto_refresh
+    old_perform_initial_refresh = @perform_initial_refresh
     @active_features -= features
     @auto_refresh = false
+    @perform_initial_refresh = false
     yield
   ensure
     @active_features = old_features
     @auto_refresh = old_auto_refresh
+    @perform_initial_refresh = old_perform_initial_refresh
   end
 end

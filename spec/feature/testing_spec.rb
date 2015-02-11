@@ -68,5 +68,21 @@ describe 'Feature testing support' do
     end
 
     it_behaves_like 'a testable repository'
+
+    describe '.run_with_deactivated' do
+      it 'should disable perform_initial_refresh for the first call to Feature.active?' do
+        Feature.run_with_activated(:deactive_feature) do
+          expect(Feature.active?(:deactive_feature)).to be_truthy
+        end
+      end
+    end
+
+    describe '.run_with_deactivated' do
+      it 'should disable perform_initial_refresh for the first call to Feature.active?' do
+        Feature.run_with_deactivated(:active_feature) do
+          expect(Feature.active?(:active_feature)).to be_falsey
+        end
+      end
+    end
   end
 end
