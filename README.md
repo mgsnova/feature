@@ -64,38 +64,38 @@ With this approach Feature is higly configurable and not bound to a specific kin
         
     * RSpec
         
-        # rails_helper.rb (or spec_helper.rb)
-        require 'feature/testing'
+            # rails_helper.rb (or spec_helper.rb)
+            require 'feature/testing'
         
-        RSpec.configure do |config|
-          config.around(:example) do |example|
-            active, inactive = example.metadata[:active], example.metadata[:inactive]
+            RSpec.configure do |config|
+              config.around(:example) do |example|
+                active, inactive = example.metadata[:active], example.metadata[:inactive]
 
-            if active.present? && inactive.present?
-              Feature.run_with_activated(*active) { Feature.run_with_deactivated(*inactive) { example.run } }
-            elsif active.present?
-              Feature.run_with_activated(*active) { example.run }
-            elsif inactive.present?
-              Feature.run_with_deactivated(*inactive) { example.run }
-            else
-              example.run
+                if active.present? && inactive.present?
+                  Feature.run_with_activated(*active) { Feature.run_with_deactivated(*inactive) { example.run } }
+                elsif active.present?
+                  Feature.run_with_activated(*active) { example.run }
+                elsif inactive.present?
+                  Feature.run_with_deactivated(*inactive) { example.run }
+                else
+                  example.run
+                end
+              end
             end
-          end
-        end
         
-        # in your test, you can use the Feature methods directly
-        it "should enable my feature" do
-          Feature.run_with_activated(:feature) do
-            expect(foo).to eq("bar")
-          end
-        end
+            # in your test, you can use the Feature methods directly
+            it "should enable my feature" do
+              Feature.run_with_activated(:feature) do
+                expect(foo).to eq("bar")
+              end
+            end
         
-        # in your test, you can use RSpec metadata
-        describe "feature is enabled", active: :feature do
-          it "should enable my feature" do
-            expect(foo).to eq("bar")
-          end
-        end
+            # in your test, you can use RSpec metadata
+            describe "feature is enabled", active: :feature do
+              it "should enable my feature" do
+                expect(foo).to eq("bar")
+              end
+            end
 
 * Feature-toggle caching
 
