@@ -69,4 +69,23 @@ describe 'Feature testing support' do
 
     it_behaves_like 'a testable repository'
   end
+
+  context 'with no features activated' do
+    before(:all) do
+      repository = Feature::Repository::SimpleRepository.new
+      Feature.set_repository(repository)
+    end
+
+    describe '.run_with_activated' do
+      it 'should not raise an error' do
+        expect { Feature.run_with_activated(:foo) {} }.to_not raise_error
+      end
+    end
+
+    describe '.run_with_deactivated' do
+      it 'should not raise an error' do
+        expect { Feature.run_with_deactivated(:foo) {} }.to_not raise_error
+      end
+    end
+  end
 end
