@@ -1,3 +1,9 @@
+## 1.3.0 (2015-06-12)
+
+* Support testing with multiple features (stevenwilkin)
+* Bugfix when using auto_refresh and testing support (javidjamae)
+* Fixing an issue with Feature.run_with_activated if @active_features is nil (tommyh)
+
 ## 1.2.0 (2014-10-28)
 
 * add Support for auto-refresh of feature data (javidjamae)
