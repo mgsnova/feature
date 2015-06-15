@@ -11,7 +11,7 @@ Feature is a battle-tested [feature toggle](http://martinfowler.com/bliki/Featur
 
 The feature toggle functionality has to be configured by feature repositories. A feature repository simply provides lists of active features (symbols!). Unknown features are assumed inactive.
 
-With this approach Feature is higly configurable and not bound to a specific kind of configuration.
+With this approach Feature is highly configurable and not bound to a specific kind of configuration.
 
 **NOTE:** Ruby 1.9 is supported explicitly only until version 1.2.0. Later version may require 2+.
 
