@@ -1,7 +1,6 @@
 require 'rake/testtask'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
-require 'mutant'
 
 RuboCop::RakeTask.new
 
@@ -11,6 +10,7 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
 end
 
 task :mutant do
+  require 'mutant'
   result = Mutant::CLI.run(%w(--include lib --require feature --use rspec Feature*))
   fail unless result == Mutant::CLI::EXIT_SUCCESS
 end
