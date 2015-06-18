@@ -26,10 +26,14 @@ With this approach Feature is highly configurable and not bound to a specific ki
 ## How to use
 
 * Setup Feature
-    * Create a repository (see examples below)
+    * Create a repository (for more infos about configuration backends, see section below)
+
+            require 'feature'
+            repo = Feature::Repository::SimpleRepository.new
+
     * Set repository to Feature
 
-            Feature.set_repository(your_repository)
+            Feature.set_repository(repo)
 
 * Use Feature in your production code
 
@@ -45,9 +49,10 @@ With this approach Feature is highly configurable and not bound to a specific ki
           # code
         end
 
-        Feature.switch(:feature_name, value_true, value_false) # => returns value_true if :feature_name is active, otherwise value_false
+        # this returns value_true if :feature_name is active, otherwise value_false
+        Feature.switch(:feature_name, value_true, value_false) 
 
-        # May also take Procs (here in Ruby 1.9 lambda syntax), returns code evaluation result.
+        # switch may also take Procs that will be evaluated and it's result returned.
         Feature.switch(:feature_name, -> { code... }, -> { code... })
 
 * Use Feature in your test code (for reliable testing of feature depending code)
@@ -58,6 +63,7 @@ With this approach Feature is highly configurable and not bound to a specific ki
           # your test code
         end
 
+        # you also can give a list of features
         Feature.run_with_deactivated(:feature, :another_feature) do
           # your test code
         end
@@ -68,8 +74,8 @@ With this approach Feature is highly configurable and not bound to a specific ki
       underlying repository the first time you try to check whether a
       feature is set or not. 
 
-    * Subsequent toggle-status checks will access the cached, in-memory
-      representation of the toggle status, so changes to toggles in the 
+    * Subsequent calls to Feature will access the cached in-memory
+      representation of the list of features. So changes to toggles in the 
       underlying repository would not be reflected in the application
       until you restart the application or manally call 
 
