@@ -9,6 +9,8 @@ rvm:
   - rbx-2
 matrix:
   allow_failures:
+    - jruby-head
+    - rbx-2
 before_install: gem install bundler
 script:
   - bundle exec rake
