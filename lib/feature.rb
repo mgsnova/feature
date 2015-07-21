@@ -27,6 +27,22 @@ module Feature
   @repository = nil
   @active_features = nil
 
+  def self.get(feature)
+    @repository.get_feature(feature)
+  end
+
+  def self.set(feature, active)
+    @repository.set_feature(feature, active)
+  end
+
+  def self.add(feature, active)
+    @repository.create_feature(feature, active)
+  end
+
+  def self.remove(feature)
+    @repository.remove_feature(feature)
+  end
+
   # Set the feature repository
   # The given repository has to respond to method 'active_features' with an array of symbols
   #
