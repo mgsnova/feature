@@ -12,6 +12,4 @@ Gem::Specification.new do |s|
   s.summary = 'Feature Toggle library for ruby'
   s.files = FileList['{lib,spec}/**/*'].exclude('rdoc').to_a + ['Rakefile', 'Gemfile', 'README.md', 'CHANGELOG.md']
   s.license = 'MIT'
-
-  s.add_dependency "rake"
 end

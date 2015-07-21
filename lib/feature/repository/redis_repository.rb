@@ -40,7 +40,7 @@ module Feature
       # @param [Symbol] feature the feature to be removed
       #
       def remove_feature(feature)
-        redis.hdel(@redis_key, feature) == 1
+        redis.hdel(@redis_key, feature.to_s) == 1
       end
 
       # Get the value of feature from a repository
