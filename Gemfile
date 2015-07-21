@@ -1,13 +1,14 @@
 source 'https://rubygems.org'
 
-gem 'rake'
+
+gemspec
 
 group :test do
-  gem 'rspec'
-  gem 'rspec-mocks'
   gem 'coveralls', require: false
   gem 'rubocop', require: false
-  gem 'fakeredis'
+  gem "rspec"
+  gem "rspec-mocks"
+  gem "fakeredis"
   if RUBY_VERSION >= '2.1'
     gem 'mutant'
     gem 'mutant-rspec'

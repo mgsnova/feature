@@ -2,7 +2,7 @@ require 'rubygems/package_task'
 
 Gem::Specification.new do |s|
   s.name = 'feature'
-  s.version = '1.3.0'
+  s.version = '1.4.0'
 
   s.authors = ['Markus Gerdes']
   s.email = 'github@mgsnova.de'
@@ -12,4 +12,6 @@ Gem::Specification.new do |s|
   s.summary = 'Feature Toggle library for ruby'
   s.files = FileList['{lib,spec}/**/*'].exclude('rdoc').to_a + ['Rakefile', 'Gemfile', 'README.md', 'CHANGELOG.md']
   s.license = 'MIT'
+
+  s.add_dependency "rake"
 end
