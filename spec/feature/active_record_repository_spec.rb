@@ -59,12 +59,25 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   after(:each) do
-    GC.start
+    @features = nil
+    @repository = nil
+    ObjectSpace.garbage_collect
   end
 
   it_behaves_like "a dynamic repository" do
+    before(:each) do
+      # Mock the model
+      @features = FeatureToggleTest
+      @repository = ActiveRecordRepository.new(@features)
+    end
+
+    after(:each) do
+      @features = nil
+      @repository = nil
+      ObjectSpace.garbage_collect
+    end
     let(:repo) do
-      ActiveRecordRepository.new(FeatureToggleTest)
+      @repository
     end
   end
 
