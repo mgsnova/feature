@@ -22,6 +22,10 @@ describe Feature::Repository::SimpleRepository do
     expect(list).to eq([])
   end
 
+  it 'should have a default auto_refresh value of false' do
+    expect(@repository.default_auto_refresh).to eq true
+  end
+
   it 'should raise an exception when adding not a symbol as active feature' do
     expect do
       @repository.add_active_feature 'feature_a'

@@ -36,6 +36,11 @@ module Feature
         @environment = environment
       end
 
+      # auto_refresh is enabled by default
+      def default_auto_refresh
+        false
+      end
+
       # Returns list of active features
       #
       # @return [Array<Symbol>] list of active features

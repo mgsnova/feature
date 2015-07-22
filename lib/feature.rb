@@ -33,14 +33,14 @@ module Feature
   # @param [Object] repository the repository to get the features from
   # @param [Boolean] auto_refresh optional (default: false) - refresh feature toggles on every check if set true
   #
-  def self.set_repository(repository, auto_refresh = false)
+  def self.set_repository(repository, auto_refresh = nil)
     unless repository.respond_to?(:active_features)
       fail ArgumentError, 'given repository does not respond to active_features'
     end
 
-    @auto_refresh = auto_refresh
     @perform_initial_refresh = true
     @repository = repository
+    @auto_refresh = auto_refresh.nil? ? @repository.default_auto_refresh : auto_refresh
   end
 
   # Refreshes list of active features from repository.

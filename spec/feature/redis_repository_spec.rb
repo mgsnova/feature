@@ -16,6 +16,10 @@ describe Feature::Repository::RedisRepository do
     expect(@repository.active_features).to eq([:feature_a])
   end
 
+  it 'should have a default auto_refresh value of false' do
+    expect(@repository.default_auto_refresh).to eq true
+  end
+
   it 'should only show active feature' do
     Redis.current.hset('application_features', 'inactive_a', false)
     Redis.current.hset('application_features', 'inactive_b', false)

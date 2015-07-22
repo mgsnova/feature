@@ -36,7 +36,7 @@ describe Feature do
 
     context 'with auto_refresh set to false' do
       before(:each) do
-        Feature.set_repository @repository
+        Feature.set_repository @repository, false
       end
       it 'should raise an exception when add repository with wrong class' do
         expect do
