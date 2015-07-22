@@ -26,8 +26,8 @@ shared_examples_for 'a dynamic repository' do
     end
 
     it 'should be able to add an active feature' do
-      repo.add_active_feature(:new_old_active_feature)
-      expect(repo.get_feature(:new_old_active_feature)).to eq true
+      repo.add_active_feature(:old_add_active_feature)
+      expect(repo.get_feature(:old_add_active_feature)).to eq true
     end
 
     it 'should be able to get an active features value' do
