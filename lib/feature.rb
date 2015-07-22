@@ -44,7 +44,7 @@ module Feature
   end
 
   def self.list
-    @repository.list_features
+    @repository.features
   end
 
   # Set the feature repository

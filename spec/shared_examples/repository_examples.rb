@@ -19,13 +19,13 @@ shared_examples_for 'a repository' do
     expect(repo.get_feature(:feature_b_active)).to eq true
   end
 
-  it '#list_features should list all features' do
+  it '#features should list all features' do
     feature_list = [
       :feature_a_active,
       :feature_b_active,
       :feature_a_inactive,
       :feature_b_inactive
     ]
-    expect(repo.list_features.sort).to eq feature_list.sort
+    expect(repo.features.sort).to eq feature_list.sort
   end
 end

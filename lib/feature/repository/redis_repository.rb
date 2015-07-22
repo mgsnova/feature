@@ -20,14 +20,6 @@ module Feature
         self.redis = redis unless redis.nil?
       end
 
-      # Add an inactive feature to repository
-      #
-      # @param [Symbol] feature the feature to be added
-      #
-      def add_inactive_feature(feature)
-        create_feature(feature, false)
-      end
-
       # Add an active feature to repository
       #
       # @param [Symbol] feature the feature to be added
@@ -74,7 +66,7 @@ module Feature
       #
       # @return [Array<Symbol>] list of all features
       #
-      def list_features
+      def features
         redis.hkeys(@redis_key).map(&:to_sym)
       end
 

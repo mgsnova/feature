@@ -67,7 +67,7 @@ module Feature
       #
       # @return [Array<Symbol>] list of active features
       #
-      def list_features
+      def features
         data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
         data_hash.keys.map(&:to_sym)
       end
