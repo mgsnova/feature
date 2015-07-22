@@ -43,6 +43,10 @@ module Feature
     @repository.remove_feature(feature)
   end
 
+  def self.list
+    @repository.list_features
+  end
+
   # Set the feature repository
   # The given repository has to respond to method 'active_features' with an array of symbols
   #
