@@ -1,3 +1,4 @@
+require 'feature/tasks'
 # Feature module provides all methods
 # - to set a feature repository
 # - to check if a feature (represented by a symbol) is active or inactive
@@ -43,7 +44,7 @@ module Feature
     @repository.remove_feature(feature)
   end
 
-  def self.list
+  def self.all
     @repository.features
   end
 
