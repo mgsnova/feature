@@ -24,7 +24,7 @@ EOF
       File.delete(@filename)
     end
 
-    it_behaves_like "a repository" do
+    it_behaves_like 'a repository' do
       let(:repo) { @repo }
     end
 

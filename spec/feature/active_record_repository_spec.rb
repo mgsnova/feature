@@ -2,10 +2,11 @@ require 'spec_helper'
 
 include Feature::Repository
 
+# Test class for stubbing an active record model
 class FeatureToggleTest < Feature::Repository::ActiveRecordRepository
   attr_accessor :name, :active
 
-  def initialize name, active=nil
+  def initialize(name, active = nil)
     self.name = name
     self.active = active
   end
@@ -18,16 +19,12 @@ class FeatureToggleTest < Feature::Repository::ActiveRecordRepository
     true
   end
 
-  def self.destroy_all
-    all.map {|o| o = nil}
-  end
-
   def self.pluck(attribute_name)
     all.map(&attribute_name.to_sym)
   end
 
   def self.where(opts)
-    all.select { |f| opts.each_pair.all? {|k, v| f.public_send(k.to_sym) == v } }
+    all.select { |f| opts.each_pair.all? { |k, v| f.public_send(k.to_sym) == v } }
   end
 
   def present?
@@ -35,14 +32,14 @@ class FeatureToggleTest < Feature::Repository::ActiveRecordRepository
   end
 
   def self.find_by_name(name)
-    all.select {|f| name == f.name}.first
+    all.find { |f| name == f.name }
   end
 
   def self.exists?(opts)
     !find_by_name(opts[:name]).nil?
   end
 
-  def self.create!(params, opts={})
+  def self.create!(params, _opts = {})
     new(params[:name], params[:active])
   end
 
@@ -64,21 +61,15 @@ describe Feature::Repository::ActiveRecordRepository do
     ObjectSpace.garbage_collect
   end
 
-  it_behaves_like "a dynamic repository" do
+  it_behaves_like 'a dynamic repository' do
     before(:each) do
-      # Mock the model
-      @features = FeatureToggleTest
-      @repository = ActiveRecordRepository.new(@features)
+      @repo = ActiveRecordRepository.new(FeatureToggleTest)
     end
-
     after(:each) do
-      @features = nil
-      @repository = nil
+      @repo = nil
       ObjectSpace.garbage_collect
     end
-    let(:repo) do
-      @repository
-    end
+    let(:repo) { @repo }
   end
 
   it 'should have no active features after initialization' do
@@ -93,7 +84,7 @@ describe Feature::Repository::ActiveRecordRepository do
 
   it 'should add an active feature' do
     expect(@features).to receive(:exists?).with(name: 'feature_a').and_return(false)
-    expect(@features).to receive(:create!).with({name: 'feature_a', active: true}, without_protection: :true)
+    expect(@features).to receive(:create!).with({ name: 'feature_a', active: true }, without_protection: :true)
 
     @repository.add_active_feature :feature_a
   end

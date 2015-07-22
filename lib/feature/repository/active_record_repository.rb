@@ -57,7 +57,7 @@ module Feature
       def create_feature(feature, val)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        @model.create!({name: feature.to_s, active: val}, without_protection: :true)
+        @model.create!({ name: feature.to_s, active: val }, without_protection: :true)
       end
 
       # Set the value of feature in a repository
@@ -84,7 +84,7 @@ module Feature
       # @return [Array<Symbol>] list of active features
       #
       def active_features
-        @model.where(active: true).map {|f| f.name.to_sym }
+        @model.where(active: true).map { |f| f.name.to_sym }
       end
 
       # Returns list of inactive features
@@ -92,7 +92,7 @@ module Feature
       # @return [Array<Symbol>] list of inactive features
       #
       def inactive_features
-        @model.where(active: false).map {|f| f.name.to_sym }
+        @model.where(active: false).map { |f| f.name.to_sym }
       end
 
       # Checks if the given feature is a not symbol and raises an exception if so

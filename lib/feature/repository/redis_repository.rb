@@ -10,11 +10,12 @@ module Feature
     # the Redis hash that will store all of your feature toggles.
     #
     class RedisRepository
+      attr_accessor :redis
       # Constructor
       #
       # @param redis_key the key of the redis hash where all the toggles will be stored
       #
-      def initialize(redis_key, redis=nil)
+      def initialize(redis_key, redis = nil)
         @redis_key = redis_key
         self.redis = redis unless redis.nil?
       end
@@ -93,10 +94,6 @@ module Feature
         redis.hgetall(@redis_key).select { |_k, v| v.to_s == 'false' }.map { |k, _v| k.to_sym }
       end
 
-      def redis=(server)
-        @redis = server
-      end
-
       def redis
         @redis ||= Redis.current
       end
@@ -123,9 +120,9 @@ module Feature
       # Converts "true" to true and "false" || nil to false
       #
       # @param [String] "true" or "false"
-      def convert_string_to_bool str
-        return true if str == "true"
-        return false if str.nil? || str == "false"
+      def convert_string_to_bool(str)
+        return true if str == 'true'
+        return false if str.nil? || str == 'false'
         fail ArgumentError, "invalid bool string: #{str.inspect}"
       end
       private :convert_string_to_bool

@@ -51,7 +51,7 @@ module Feature
       #
       def active_features
         data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
-        data_hash.select { |_,v| v }.keys.map(&:to_sym)
+        data_hash.select { |_, v| v }.keys.map(&:to_sym)
       end
 
       # Returns list of inactive features
@@ -60,7 +60,7 @@ module Feature
       #
       def inactive_features
         data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
-        data_hash.select { |_,v| !v }.keys.map(&:to_sym)
+        data_hash.select { |_, v| !v }.keys.map(&:to_sym)
       end
 
       # Returns list of all features

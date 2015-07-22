@@ -7,19 +7,19 @@ describe Feature::Repository::SimpleRepository do
     @repository = SimpleRepository.new
   end
 
-  it_behaves_like "a dynamic repository" do
+  it_behaves_like 'a dynamic repository' do
     let(:repo) { SimpleRepository.new }
   end
 
-  it_behaves_like "a repository" do
-    let(:repo) {
+  it_behaves_like 'a repository' do
+    let(:repo) do
       repository = SimpleRepository.new
       repository.create_feature(:feature_a_inactive, false)
       repository.create_feature(:feature_b_inactive, false)
       repository.create_feature(:feature_a_active, true)
       repository.create_feature(:feature_b_active, true)
       repository
-    }
+    end
   end
 
   it 'should have no active features after initialization' do
