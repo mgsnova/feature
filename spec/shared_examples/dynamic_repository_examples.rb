@@ -4,7 +4,7 @@ shared_examples_for 'a dynamic repository' do
   # define repo
   context 'after initialization' do
     it 'should have no active features' do
-      expect(@repository.active_features).to eq([])
+      expect(repo.active_features).to eq([])
     end
   end
 
