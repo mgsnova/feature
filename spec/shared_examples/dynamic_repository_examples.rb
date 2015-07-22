@@ -9,12 +9,6 @@ shared_examples_for 'a dynamic repository' do
   end
 
   context 'with features added' do
-    it 'should be able to list all features' do
-      repo.create_feature(:feature_a, true)
-      repo.create_feature(:feature_b, false)
-      expect(repo.features.sort).to eq [:feature_a, :feature_b]
-    end
-
     it 'should be able to create an active feature' do
       repo.create_feature(:new_active_feature, true)
       expect(repo.get_feature(:new_active_feature)).to eq true

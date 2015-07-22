@@ -67,7 +67,9 @@ module Feature
       # @return [Array<Symbol>] list of all features
       #
       def features
-        active_features + inactive_features
+        active = active_features.inject({}) { |a, e| a.merge(e => true) }
+        inactive = inactive_features.inject({}) { |a, e| a.merge(e => false) }
+        active.merge(inactive)
       end
 
       # Returns list of active features

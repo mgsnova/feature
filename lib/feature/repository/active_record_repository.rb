@@ -68,7 +68,7 @@ module Feature
       # @return [Array<Symbol>] list of all features
       #
       def features
-        @model.pluck(:name).map(&:to_sym)
+        @model.all.inject({}) { |a, e| a.merge(e.name.to_sym => e.active) }
       end
 
       # Returns list of active features

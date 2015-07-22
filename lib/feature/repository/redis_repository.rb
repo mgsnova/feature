@@ -67,7 +67,7 @@ module Feature
       # @return [Array<Symbol>] list of all features
       #
       def features
-        redis.hkeys(@redis_key).map(&:to_sym)
+        redis.hgetall(@redis_key).inject({}) { |h, (k, v)| h.merge(k.to_sym => convert_string_to_bool(v)) }
       end
 
       # Returns list of active features

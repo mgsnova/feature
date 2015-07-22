@@ -69,7 +69,7 @@ module Feature
       #
       def features
         data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
-        data_hash.keys.map(&:to_sym)
+        data_hash.each_pair.inject({}) { |h, (k, v)| h.merge(k.to_sym => v) }
       end
 
       # Read given file, perform erb evaluation and yaml parsing
