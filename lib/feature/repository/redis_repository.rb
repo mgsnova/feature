@@ -15,9 +15,9 @@ module Feature
       #
       # @param redis_key the key of the redis hash where all the toggles will be stored
       #
-      def initialize(redis_key, redis = nil)
+      def initialize(redis_key, server = nil)
         @redis_key = redis_key
-        self.redis = redis unless redis.nil?
+        self.redis = server unless redis.nil?
       end
 
       # Add an active feature to repository
