@@ -28,6 +28,10 @@ EOF
       expect(@repo.active_features).to eq([:feature_a_active, :feature_b_active])
     end
 
+    it 'should have a default auto_refresh value of false' do
+      expect(@repo.default_auto_refresh).to eq false
+    end
+
     context 're-read config file' do
       before(:each) do
         fp = File.new(@filename, 'w')

@@ -15,6 +15,10 @@ describe Feature::Repository::ActiveRecordRepository do
     expect(@repository.active_features).to eq([])
   end
 
+  it 'should have a default auto_refresh value of false' do
+    expect(@repository.default_auto_refresh).to eq true
+  end
+
   it 'should have active features' do
     allow(@features).to receive(:where).with(active: true) { [double(name: 'active')] }
 
