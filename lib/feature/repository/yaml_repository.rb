@@ -36,7 +36,7 @@ module Feature
         @environment = environment
       end
 
-      # auto_refresh is enabled by default
+      # auto_refresh is disabled by default
       def default_auto_refresh
         false
       end
