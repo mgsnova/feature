@@ -13,11 +13,11 @@ The feature toggle functionality has to be configured by feature repositories. A
 
 With this approach Feature is highly configurable and not bound to a specific kind of configuration.
 
-**NOTE:** Ruby 1.9 is supported explicitly only until version 1.2.0. Later version may require 2+.
+**NOTE:** The current gem version works with Ruby 2+ and supports Ruby on Rails 4+.
 
-**NOTE:** Ruby 1.8 is only supported until version 0.7.0. Later Versions require Ruby 1.9+.
+**NOTE:** Ruby 1.9 is supported until version 1.2.0, Ruby 1.8 is supported until version 0.7.0.
 
-**NOTE:** Using feature with ActiveRecord and Rails 3 MAY work. Version 1.1.0 supports Rails 3.
+**NOTE:** ActiveRecord / Rails 3 is supported until version 1.1.0.
 
 ## Installation
 
