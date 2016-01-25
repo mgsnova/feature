@@ -10,20 +10,14 @@ module Feature
     # the Redis hash that will store all of your feature toggles.
     #
     class RedisRepository
+      attr_accessor :redis
       # Constructor
       #
       # @param redis_key the key of the redis hash where all the toggles will be stored
       #
-      def initialize(redis_key)
+      def initialize(redis_key, server = nil)
         @redis_key = redis_key
-      end
-
-      # Returns list of active features
-      #
-      # @return [Array<Symbol>] list of active features
-      #
-      def active_features
-        Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
+        self.redis = server unless redis.nil?
       end
 
       # Add an active feature to repository
@@ -31,9 +25,69 @@ module Feature
       # @param [Symbol] feature the feature to be added
       #
       def add_active_feature(feature)
+        create_feature(feature, true)
+      end
+
+      # Remove a feature from a repository
+      #
+      # @param [Symbol] feature the feature to be removed
+      #
+      def remove_feature(feature)
+        redis.hdel(@redis_key, feature.to_s) == 1
+      end
+
+      # Get the value of feature from a repository
+      #
+      # @param [Symbol] feature the feature to be checked
+      # @return [Boolean] whether the feature is active
+      def get_feature(feature)
+        convert_string_to_bool(redis.hget(@redis_key, feature.to_s))
+      end
+
+      # Add a feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def create_feature(feature, val)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        Redis.current.hset(@redis_key, feature, true)
+        set_feature(feature, val)
+      end
+
+      # Set the value of feature in a repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def set_feature(feature, val)
+        redis.hset(@redis_key, feature.to_s, val)
+      end
+
+      # List all of the features in a repository
+      #
+      # @return [Array<Symbol>] list of all features
+      #
+      def features
+        redis.hgetall(@redis_key).inject({}) { |h, (k, v)| h.merge(k.to_sym => convert_string_to_bool(v)) }
+      end
+
+      # Returns list of active features
+      #
+      # @return [Array<Symbol>] list of active features
+      #
+      def active_features
+        redis.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
+      end
+
+      # Returns list of inactive features
+      #
+      # @return [Array<Symbol>] list of inactive features
+      #
+      def inactive_features
+        redis.hgetall(@redis_key).select { |_k, v| v.to_s == 'false' }.map { |k, _v| k.to_sym }
+      end
+
+      def redis
+        @redis ||= Redis.current
       end
 
       # Checks that given feature is a symbol, raises exception otherwise
@@ -51,9 +105,19 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_already_in_list(feature)
-        fail ArgumentError, "feature :#{feature} already added" if Redis.current.hexists(@redis_key, feature)
+        fail ArgumentError, "feature :#{feature} already added" if redis.hexists(@redis_key, feature)
       end
       private :check_feature_already_in_list
+
+      # Converts "true" to true and "false" || nil to false
+      #
+      # @param [String] "true" or "false"
+      def convert_string_to_bool(str)
+        return true if str == 'true'
+        return false if str.nil? || str == 'false'
+        fail ArgumentError, "invalid bool string: #{str.inspect}"
+      end
+      private :convert_string_to_bool
     end
   end
 end

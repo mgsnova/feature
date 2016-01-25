@@ -12,8 +12,8 @@ describe Feature::Repository::YamlRepository do
 features:
     feature_a_active: true
     feature_b_active: true
-    feature_c_inactive: false
-    feature_d_inactive: false
+    feature_a_inactive: false
+    feature_b_inactive: false
 EOF
       fp.close
 
@@ -24,8 +24,8 @@ EOF
       File.delete(@filename)
     end
 
-    it 'should read active features from a config file' do
-      expect(@repo.active_features).to eq([:feature_a_active, :feature_b_active])
+    it_behaves_like 'a repository' do
+      let(:repo) { @repo }
     end
 
     context 're-read config file' do
