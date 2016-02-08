@@ -70,7 +70,7 @@ module Feature
   def self.active?(feature)
     fail 'missing Repository for obtaining feature lists' unless @repository
 
-    refresh! if @auto_refresh || @perform_initial_refresh || require_refresh?
+    refresh! if @auto_refresh || @perform_initial_refresh || timeout_refresh?
 
     @active_features.include?(feature)
   end
