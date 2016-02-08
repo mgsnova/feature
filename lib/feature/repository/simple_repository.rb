@@ -24,6 +24,14 @@ module Feature
         @active_features.dup
       end
 
+      # Add an inactive feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def add_inactive_feature(feature)
+        # do nothing. keep it here for consistency of the interface
+      end
+
       # Add an active feature to repository
       #
       # @param [Symbol] feature the feature to be added

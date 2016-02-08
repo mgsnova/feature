@@ -26,6 +26,16 @@ module Feature
         Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
       end
 
+      # Add an inactive feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def add_inactive_feature(feature)
+        check_feature_is_not_symbol(feature)
+        check_feature_already_in_list(feature)
+        Redis.current.hset(@redis_key, feature, false)
+      end
+
       # Add an active feature to repository
       #
       # @param [Symbol] feature the feature to be added

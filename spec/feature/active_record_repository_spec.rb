@@ -28,6 +28,13 @@ describe Feature::Repository::ActiveRecordRepository do
     @repository.add_active_feature :feature_a
   end
 
+  it 'should add an inactive feature' do
+    expect(@features).to receive(:exists?).with('feature_a').and_return(false)
+    expect(@features).to receive(:create!).with(name: 'feature_a', active: false)
+
+    @repository.add_inactive_feature :feature_a
+  end
+
   it 'should raise an exception when adding not a symbol as active feature' do
     expect do
       @repository.add_active_feature 'feature_a'

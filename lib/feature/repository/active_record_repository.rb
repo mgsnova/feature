@@ -24,6 +24,16 @@ module Feature
         @model.where(active: true).map { |f| f.name.to_sym }
       end
 
+      # Add an inactive feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def add_inactive_feature(feature)
+        check_feature_is_not_symbol(feature)
+        check_feature_already_in_list(feature)
+        @model.create!(name: feature.to_s, active: false)
+      end
+
       # Add an active feature to repository
       #
       # @param [Symbol] feature the feature to be added
