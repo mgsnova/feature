@@ -36,7 +36,7 @@ module Feature
   #
   def self.set_repository(repository, auto_refresh = false, timeout = nil)
     unless repository.respond_to?(:active_features)
-      fail ArgumentError, 'given repository does not respond to active_features'
+      raise ArgumentError, 'given repository does not respond to active_features'
     end
 
     @auto_refresh = auto_refresh
@@ -68,7 +68,7 @@ module Feature
   # @return [Boolean]
   #
   def self.active?(feature)
-    fail 'missing Repository for obtaining feature lists' unless @repository
+    raise 'missing Repository for obtaining feature lists' unless @repository
 
     refresh! if @auto_refresh || @perform_initial_refresh || timeout_refresh?
 
@@ -89,7 +89,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.with(feature)
-    fail ArgumentError, "no block given to #{__method__}" unless block_given?
+    raise ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if active?(feature)
   end
@@ -99,7 +99,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.without(feature)
-    fail ArgumentError, "no block given to #{__method__}" unless block_given?
+    raise ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if inactive?(feature)
   end
