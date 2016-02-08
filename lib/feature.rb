@@ -51,14 +51,14 @@ module Feature
   #
   def self.refresh!
     @active_features = @repository.active_features
-    @last_refresh = Time.now if !!@timeout
+    @last_refresh = Time.now if @timeout
     @perform_initial_refresh = false
   end
 
   # returns true if refresh is due because of timeout set
   #
   def self.timeout_refresh?
-    !!@timeout && (Time.now - @last_refresh) > @timeout
+    @timeout && (Time.now - @last_refresh) > @timeout
   end
 
   ##
