@@ -26,14 +26,23 @@ module Feature
         Redis.current.hgetall(@redis_key).select { |_k, v| v.to_s == 'true' }.map { |k, _v| k.to_sym }
       end
 
+      # Add a feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      # @param [Boolean] feature the state of the feature active=true
+      #
+      def add_feature(feature, state)
+        check_feature_is_not_symbol(feature)
+        check_feature_already_in_list(feature)
+        Redis.current.hset(@redis_key, feature, state)
+      end
+
       # Add an inactive feature to repository
       #
       # @param [Symbol] feature the feature to be added
       #
       def add_inactive_feature(feature)
-        check_feature_is_not_symbol(feature)
-        check_feature_already_in_list(feature)
-        Redis.current.hset(@redis_key, feature, false)
+        add_feature(feature, false)
       end
 
       # Add an active feature to repository
@@ -41,9 +50,7 @@ module Feature
       # @param [Symbol] feature the feature to be added
       #
       def add_active_feature(feature)
-        check_feature_is_not_symbol(feature)
-        check_feature_already_in_list(feature)
-        Redis.current.hset(@redis_key, feature, true)
+        add_feature(feature, true)
       end
 
       # Checks that given feature is a symbol, raises exception otherwise

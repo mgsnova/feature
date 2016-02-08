@@ -29,9 +29,7 @@ module Feature
       # @param [Symbol] feature the feature to be added
       #
       def add_inactive_feature(feature)
-        check_feature_is_not_symbol(feature)
-        check_feature_already_in_list(feature)
-        @model.create!(name: feature.to_s, active: false)
+        add_feature(feature, false)
       end
 
       # Add an active feature to repository
@@ -39,9 +37,18 @@ module Feature
       # @param [Symbol] feature the feature to be added
       #
       def add_active_feature(feature)
+        add_feature(feature, true)
+      end
+
+      # Add a feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      # @param [Boolean] state the active state (true=active, false=inactive)
+      #
+      def add_feature(feature, state)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        @model.create!(name: feature.to_s, active: true)
+        @model.create!(name: feature.to_s, active: state)
       end
 
       # Checks if the given feature is a not symbol and raises an exception if so
