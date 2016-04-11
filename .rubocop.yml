@@ -4,3 +4,6 @@ Metrics/LineLength:
 # Offense count: 1
 Metrics/AbcSize:
   Max: 17
+
+Style/SignalException:
+  EnforcedStyle: only_fail
