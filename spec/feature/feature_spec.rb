@@ -105,6 +105,7 @@ describe Feature do
 
     it 'should affirm active features' do
       expect(Feature.active_features.count).to eq(1)
+      expect(Feature.active_features).to eq([:feature_active])
       expect(Feature.active_features.include? :feature_active).to be_truthy
       expect(Feature.active_features.include? :feature_inactive).to be_falsey
     end
