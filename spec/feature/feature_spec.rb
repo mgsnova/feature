@@ -8,6 +8,12 @@ describe Feature do
       end.to raise_error('missing Repository for obtaining feature lists')
     end
 
+    it 'should raise an exception when calling active_features' do
+      expect do
+        Feature.active_features
+      end.to raise_error('missing Repository for obtaining feature lists')
+    end
+
     it 'should raise an exception when calling inactive?' do
       expect do
         Feature.inactive?(:feature_a)
@@ -95,6 +101,12 @@ describe Feature do
       repository = Feature::Repository::SimpleRepository.new
       repository.add_active_feature :feature_active
       Feature.set_repository repository
+    end
+
+    it 'should affirm active features' do
+      expect(Feature.active_features.count).to eq(1)
+      expect(Feature.active_features.include? :feature_active).to be_truthy
+      expect(Feature.active_features.include? :feature_inactive).to be_falsey
     end
 
     it 'should affirm active feature is active' do
