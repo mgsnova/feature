@@ -27,6 +27,12 @@ describe Feature do
         end
       end.to raise_error('missing Repository for obtaining feature lists')
     end
+
+    it 'should raise an exception when calling active_features' do
+      expect do
+        Feature.active_features
+      end.to raise_error('missing Repository for obtaining feature lists')
+    end
   end
 
   context 'setting Repository' do
@@ -191,9 +197,9 @@ describe Feature do
       end
     end
 
-    describe '.active_list' do
+    describe 'active_features' do
       it 'should return an array of active feature flags' do
-        expect(Feature.active_list).to eq([:feature_active])
+        expect(Feature.active_features).to eq([:feature_active])
       end
     end
   end

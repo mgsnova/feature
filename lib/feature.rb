@@ -58,11 +58,7 @@ module Feature
   # @return [Boolean]
   #
   def self.active?(feature)
-    raise 'missing Repository for obtaining feature lists' unless @repository
-
-    refresh! if @auto_refresh || @perform_initial_refresh
-
-    @active_features.include?(feature)
+    active_features.include?(feature)
   end
 
   # Requests if feature is inactive (or unknown)
@@ -111,7 +107,12 @@ module Feature
   # Return list of active feature flags.
   #
   # @return [Array] list of symbols
-  def self.active_list
+  #
+  def self.active_features
+    raise 'missing Repository for obtaining feature lists' unless @repository
+
+    refresh! if @auto_refresh || @perform_initial_refresh
+
     @active_features
   end
 end

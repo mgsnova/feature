@@ -43,6 +43,8 @@ With this approach Feature is highly configurable and not bound to a specific ki
 
     Feature.inactive?(:feature_name) # => true/false
 
+    Feature.active_features # => [:list, :of, :features]
+
     Feature.with(:feature_name) do
       # code
     end
