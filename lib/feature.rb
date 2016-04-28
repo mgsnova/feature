@@ -51,6 +51,15 @@ module Feature
     @perform_initial_refresh = false
   end
 
+  # Returns the list of all active features
+  def self.active_features
+    fail 'missing Repository for obtaining feature lists' unless @repository
+
+    refresh! if @auto_refresh || @perform_initial_refresh
+
+    @active_features
+  end
+
   ##
   # Requests if feature is active
   #

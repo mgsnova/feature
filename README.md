@@ -39,6 +39,8 @@ With this approach Feature is highly configurable and not bound to a specific ki
 
 * Use Feature in your production code
     ```ruby
+    Feature.active_features # => list of active feature symbols
+
     Feature.active?(:feature_name) # => true/false
 
     Feature.inactive?(:feature_name) # => true/false
@@ -54,7 +56,7 @@ With this approach Feature is highly configurable and not bound to a specific ki
     end
 
     # this returns value_true if :feature_name is active, otherwise value_false
-    Feature.switch(:feature_name, value_true, value_false) 
+    Feature.switch(:feature_name, value_true, value_false)
 
     # switch may also take Procs that will be evaluated and it's result returned.
     Feature.switch(:feature_name, -> { code... }, -> { code... })
@@ -78,12 +80,12 @@ With this approach Feature is highly configurable and not bound to a specific ki
 
     * By default, Feature will lazy-load the active features from the
       underlying repository the first time you try to check whether a
-      feature is set or not. 
+      feature is set or not.
 
     * Subsequent calls to Feature will access the cached in-memory
-      representation of the list of features. So changes to toggles in the 
+      representation of the list of features. So changes to toggles in the
       underlying repository would not be reflected in the application
-      until you restart the application or manally call 
+      until you restart the application or manally call
         ```ruby
         Feature.refresh!
         ```
@@ -92,7 +94,7 @@ With this approach Feature is highly configurable and not bound to a specific ki
       set_repository, to force Feature to auto-refresh the feature list
       on every feature-toggle check you make.
         ```ruby
-        Feature.set_repository(your_repository, true) 
+        Feature.set_repository(your_repository, true)
         ```
 
 ## How to setup different backends
