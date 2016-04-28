@@ -32,15 +32,18 @@ module Feature
   #
   # @param [Object] repository the repository to get the features from
   # @param [Boolean] auto_refresh optional (default: false) - refresh feature toggles on every check if set true
+  # @param [Integer] timeout optional (default: nil) - does a refresh after timeout seconds
   #
-  def self.set_repository(repository, auto_refresh = false)
+  def self.set_repository(repository, auto_refresh = false, timeout = nil)
     unless repository.respond_to?(:active_features)
-      fail ArgumentError, 'given repository does not respond to active_features'
+      raise ArgumentError, 'given repository does not respond to active_features'
     end
 
     @auto_refresh = auto_refresh
     @perform_initial_refresh = true
     @repository = repository
+    @timeout = timeout
+    @last_refresh = Time.now
   end
 
   # Refreshes list of active features from repository.
@@ -48,7 +51,14 @@ module Feature
   #
   def self.refresh!
     @active_features = @repository.active_features
+    @last_refresh = Time.now if @timeout
     @perform_initial_refresh = false
+  end
+
+  # returns true if refresh is due because of timeout set
+  #
+  def self.timeout_refresh?
+    @timeout && (Time.now - @last_refresh) > @timeout
   end
 
   ##
@@ -58,9 +68,9 @@ module Feature
   # @return [Boolean]
   #
   def self.active?(feature)
-    fail 'missing Repository for obtaining feature lists' unless @repository
+    raise 'missing Repository for obtaining feature lists' unless @repository
 
-    refresh! if @auto_refresh || @perform_initial_refresh
+    refresh! if @auto_refresh || @perform_initial_refresh || timeout_refresh?
 
     @active_features.include?(feature)
   end
@@ -79,7 +89,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.with(feature)
-    fail ArgumentError, "no block given to #{__method__}" unless block_given?
+    raise ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if active?(feature)
   end
@@ -89,7 +99,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.without(feature)
-    fail ArgumentError, "no block given to #{__method__}" unless block_given?
+    raise ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if inactive?(feature)
   end

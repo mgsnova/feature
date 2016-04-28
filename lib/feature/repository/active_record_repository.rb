@@ -24,14 +24,31 @@ module Feature
         @model.where(active: true).map { |f| f.name.to_sym }
       end
 
+      # Add an inactive feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def add_inactive_feature(feature)
+        add_feature(feature, false)
+      end
+
       # Add an active feature to repository
       #
       # @param [Symbol] feature the feature to be added
       #
       def add_active_feature(feature)
+        add_feature(feature, true)
+      end
+
+      # Add a feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      # @param [Boolean] state the active state (true=active, false=inactive)
+      #
+      def add_feature(feature, state)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        @model.create!(name: feature.to_s, active: true)
+        @model.create!(name: feature.to_s, active: state)
       end
 
       # Checks if the given feature is a not symbol and raises an exception if so
@@ -39,7 +56,7 @@ module Feature
       # @param [Sybmol] feature the feature to be checked
       #
       def check_feature_is_not_symbol(feature)
-        fail ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
+        raise ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
       end
       private :check_feature_is_not_symbol
 
@@ -49,7 +66,7 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_already_in_list(feature)
-        fail ArgumentError, "feature :#{feature} already added" if @model.exists?(feature.to_s)
+        raise ArgumentError, "feature :#{feature} already added" if @model.exists?(feature.to_s)
       end
       private :check_feature_already_in_list
     end
