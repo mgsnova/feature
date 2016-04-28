@@ -190,5 +190,11 @@ describe Feature do
         end
       end
     end
+
+    describe '.active_list' do
+      it 'should return an array of active feature flags' do
+        expect(Feature.active_list).to eq([:feature_active])
+      end
+    end
   end
 end

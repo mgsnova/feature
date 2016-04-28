@@ -107,4 +107,11 @@ module Feature
       l2.instance_of?(Proc) ? l2.call : l2
     end
   end
+
+  # Return list of active feature flags.
+  #
+  # @return [Array] list of symbols
+  def self.active_list
+    @active_features
+  end
 end
