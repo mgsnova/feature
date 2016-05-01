@@ -130,18 +130,24 @@ Note: Only works for dynamic repositories (aka, excludes YamlRepository)
 
         ```ruby
         Feature.add(:my_feature, true) # returns true if successful
+        # Or
+        Feature.create(:my_feature, true) # returns true if successful
         ```
 
     * add an inactive feature
 
         ```ruby
         Feature.add(:my_feature, false) # returns true if successful
+        # Or
+        Feature.create(:my_feature, false) # returns true if successful
         ```
 
     * remove a feature
 
         ```ruby
         Feature.remove(:my_feature) # returns true if successful
+        # Or
+        Feature.destroy(:my_feature) # returns true if successful
         ```
 
 
