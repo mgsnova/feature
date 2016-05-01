@@ -11,3 +11,5 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 SPEC_ROOT = Pathname(__FILE__).dirname.expand_path
 
 require SPEC_ROOT.parent + 'lib/feature'
+require SPEC_ROOT + 'shared_examples/dynamic_repository_examples'
+require SPEC_ROOT + 'shared_examples/repository_examples'

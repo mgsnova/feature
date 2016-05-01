@@ -1,3 +1,4 @@
+require 'feature/tasks'
 # Feature module provides all methods
 # - to set a feature repository
 # - to check if a feature (represented by a symbol) is active or inactive
@@ -8,7 +9,7 @@
 #
 # Example usage:
 #   repository = SimpleRepository.new
-#   repository.add_active_feature(:feature_name)
+#   repository.create(:feature_name, true)
 #
 #   Feature.set_repository(repository)
 #   Feature.active?(:feature_name)
@@ -26,6 +27,29 @@ module Feature
 
   @repository = nil
   @active_features = nil
+
+  def self.get(feature)
+    @repository.get(feature)
+  end
+
+  def self.set(feature, active)
+    @repository.set(feature, active)
+  end
+
+  def self.add(feature, active = false)
+    @repository.create(feature, active)
+  end
+  singleton_class.send(:alias_method, :create, :add)
+
+  def self.remove(feature)
+    @repository.destroy(feature)
+  end
+  singleton_class.send(:alias_method, :destroy, :remove)
+
+  def self.all
+    @repository.features
+  end
+  singleton_class.send(:alias_method, :features, :all)
 
   # Set the feature repository
   # The given repository has to respond to method 'active_features' with an array of symbols
@@ -48,6 +72,7 @@ module Feature
   #
   def self.refresh!
     @active_features = @repository.active_features
+    @inactive_features = @repository.inactive_features
     @perform_initial_refresh = false
   end
 
@@ -114,5 +139,17 @@ module Feature
     refresh! if @auto_refresh || @perform_initial_refresh
 
     @active_features
+  end
+
+  # Return list of inactive feature flags.
+  #
+  # @return [Array] list of symbols
+  #
+  def self.inactive_features
+    raise 'missing Repository for obtaining feature lists' unless @repository
+
+    refresh! if @auto_refresh || @perform_initial_refresh
+
+    @inactive_features
   end
 end

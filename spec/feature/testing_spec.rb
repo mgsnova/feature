@@ -51,8 +51,8 @@ describe 'Feature testing support' do
   context 'without auto_refresh' do
     before(:all) do
       repository = Feature::Repository::SimpleRepository.new
-      repository.add_active_feature(:active_feature)
-      repository.add_active_feature(:another_active_feature)
+      repository.create(:active_feature, true)
+      repository.create(:another_active_feature, true)
       Feature.set_repository(repository)
     end
 
@@ -62,8 +62,8 @@ describe 'Feature testing support' do
   context 'with auto_refresh' do
     before(:all) do
       repository = Feature::Repository::SimpleRepository.new
-      repository.add_active_feature(:active_feature)
-      repository.add_active_feature(:another_active_feature)
+      repository.create(:active_feature, true)
+      repository.create(:another_active_feature, true)
       Feature.set_repository(repository, true)
     end
 

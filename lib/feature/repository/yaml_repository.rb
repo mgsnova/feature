@@ -36,13 +36,40 @@ module Feature
         @environment = environment
       end
 
+      # Get the value of feature from a repository
+      #
+      # @param [Symbol] feature the feature to be checked
+      # @return [Boolean] whether the feature is active
+      #
+      def get(feature)
+        active_features.include?(feature)
+      end
+
       # Returns list of active features
       #
       # @return [Array<Symbol>] list of active features
       #
       def active_features
-        data = read_file(@yaml_file_name)
-        get_active_features(data, @environment)
+        data_hash = get_hash(read_file(@yaml_file_name), @environment)
+        data_hash.select { |_, v| v }.keys.map(&:to_sym)
+      end
+
+      # Returns list of inactive features
+      #
+      # @return [Array<Symbol>] list of active features
+      #
+      def inactive_features
+        data_hash = get_hash(read_file(@yaml_file_name), @environment)
+        data_hash.select { |_, v| !v }.keys.map(&:to_sym)
+      end
+
+      # Returns list of all features
+      #
+      # @return [Array<Symbol>] list of active features
+      #
+      def features
+        data_hash = get_hash(read_file(@yaml_file_name), @environment)
+        data_hash.each_pair.inject({}) { |h, (k, v)| h.merge(k.to_sym => v) }
       end
 
       # Read given file, perform erb evaluation and yaml parsing
@@ -57,25 +84,25 @@ module Feature
       end
       private :read_file
 
-      # Extracts active features from given hash
+      # Extracts features hash from given yaml
       #
       # @param data [Hash] hash parsed from yaml file
       # @param selector [String] uses the value for this key as source of feature data
       #
-      def get_active_features(data, selector)
+      def get_hash(data, selector)
         data = data[selector] unless selector.empty?
 
         if !data.is_a?(Hash) || !data.key?('features')
           raise ArgumentError, 'yaml config does not contain proper config'
         end
 
-        return [] unless data['features']
+        return {} unless data['features']
 
         check_valid_feature_data(data['features'])
 
-        data['features'].keys.select { |key| data['features'][key] }.map(&:to_sym)
+        data['features']
       end
-      private :get_active_features
+      private :get_hash
 
       # Checks for valid values in given feature hash
       #

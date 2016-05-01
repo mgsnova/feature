@@ -54,7 +54,7 @@ With this approach Feature is highly configurable and not bound to a specific ki
     end
 
     # this returns value_true if :feature_name is active, otherwise value_false
-    Feature.switch(:feature_name, value_true, value_false) 
+    Feature.switch(:feature_name, value_true, value_false)
 
     # switch may also take Procs that will be evaluated and it's result returned.
     Feature.switch(:feature_name, -> { code... }, -> { code... })
@@ -78,12 +78,13 @@ With this approach Feature is highly configurable and not bound to a specific ki
 
     * By default, Feature will lazy-load the active features from the
       underlying repository the first time you try to check whether a
-      feature is set or not. 
+      feature is set or not.
 
     * Subsequent calls to Feature will access the cached in-memory
-      representation of the list of features. So changes to toggles in the 
+      representation of the list of features. So changes to toggles in the
       underlying repository would not be reflected in the application
-      until you restart the application or manally call 
+
+      until you restart the application or manally call
         ```ruby
         Feature.refresh!
         ```
@@ -91,9 +92,64 @@ With this approach Feature is highly configurable and not bound to a specific ki
     * You can optionally pass in true as a second argument on
       set_repository, to force Feature to auto-refresh the feature list
       on every feature-toggle check you make.
+
         ```ruby
-        Feature.set_repository(your_repository, true) 
+        Feature.set_repository(your_repository, true)
         ```
+
+## How to read current features
+
+    * get the value of a feature
+
+        ```ruby
+        Feature.get(:feature_name) # => true or false depending on if it is active or not
+        ```
+
+    * list the names of all defined features
+
+        ```ruby
+        Feature.list # => list of all feature names
+        ```
+
+## How to add/update/remove current features
+Note: Only works for dynamic repositories (aka, excludes YamlRepository)
+
+    * set the value of a feature to active
+
+        ```ruby
+        Feature.set(:my_feature, true) # returns true if successful
+        ```
+
+    * set the value of a feature to inactive
+
+        ```ruby
+        Feature.set(:my_feature, false) # returns true if successful
+        ```
+
+    * add an active feature
+
+        ```ruby
+        Feature.add(:my_feature, true) # returns true if successful
+        # Or
+        Feature.create(:my_feature, true) # returns true if successful
+        ```
+
+    * add an inactive feature
+
+        ```ruby
+        Feature.add(:my_feature, false) # returns true if successful
+        # Or
+        Feature.create(:my_feature, false) # returns true if successful
+        ```
+
+    * remove a feature
+
+        ```ruby
+        Feature.remove(:my_feature) # returns true if successful
+        # Or
+        Feature.destroy(:my_feature) # returns true if successful
+        ```
+
 
 ## How to setup different backends
 
@@ -108,7 +164,7 @@ gem 'feature'
 require 'feature'
 
 repo = Feature::Repository::SimpleRepository.new
-repo.add_active_feature :be_nice
+repo.create :be_nice
 
 Feature.set_repository repo
 ```
@@ -192,5 +248,5 @@ FeatureToggle.create!(name: "InActiveFeature", active: false)
 
 # or in initializer
 # File: config/initializers/feature.rb
-repo.add_active_feature(:active_feature)
+repo.create(:active_feature, true)
 ```

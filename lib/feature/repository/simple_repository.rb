@@ -6,7 +6,7 @@ module Feature
     #
     # Example usage:
     #   repository = SimpleRepository.new
-    #   repository.add_active_feature(:feature_name)
+    #   repository.create(:feature_name)
     #   # use repository with Feature
     #
     class SimpleRepository
@@ -14,6 +14,55 @@ module Feature
       #
       def initialize
         @active_features = []
+        @inactive_features = []
+      end
+
+      # Remove a feature from a repository
+      #
+      # @param [Symbol] feature the feature to be removed
+      #
+      def destroy(feature)
+        @active_features -= [feature]
+        @inactive_features -= [feature]
+        true
+      end
+
+      # Get the value of feature from a repository
+      #
+      # @param [Symbol] feature the feature to be checked
+      # @return [Boolean] whether the feature is active
+      def get(feature)
+        @active_features.include?(feature)
+      end
+
+      # Add a feature to repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def create(feature, val = false)
+        check_feature_is_not_symbol(feature)
+        val ? (@active_features << feature) : (@inactive_features << feature)
+        true
+      end
+
+      # Set the value of feature in a repository
+      #
+      # @param [Symbol] feature the feature to be added
+      #
+      def set(feature, val)
+        check_feature_is_not_symbol(feature)
+        destroy(feature)
+        create(feature, val)
+      end
+
+      # List all of the features in a repository
+      #
+      # @return [Array<Symbol>] list of all features
+      #
+      def features
+        active = active_features.inject({}) { |a, e| a.merge(e => true) }
+        inactive = inactive_features.inject({}) { |a, e| a.merge(e => false) }
+        active.merge(inactive)
       end
 
       # Returns list of active features
@@ -24,14 +73,12 @@ module Feature
         @active_features.dup
       end
 
-      # Add an active feature to repository
+      # Returns list of inactive features
       #
-      # @param [Symbol] feature the feature to be added
+      # @return [Array<Symbol>] list of inactive features
       #
-      def add_active_feature(feature)
-        check_feature_is_not_symbol(feature)
-        check_feature_already_in_list(feature)
-        @active_features << feature
+      def inactive_features
+        @inactive_features.dup
       end
 
       # Checks that given feature is a symbol, raises exception otherwise
@@ -42,16 +89,6 @@ module Feature
         raise ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
       end
       private :check_feature_is_not_symbol
-
-      # Checks if given feature is already added to list of active features
-      # and raises an exception if so
-      #
-      # @param [Symbol] feature the feature to be checked
-      #
-      def check_feature_already_in_list(feature)
-        raise ArgumentError, "feature :#{feature} already added" if @active_features.include?(feature)
-      end
-      private :check_feature_already_in_list
     end
   end
 end

@@ -7,40 +7,42 @@ describe Feature::Repository::RedisRepository do
     @repository = RedisRepository.new('application_features')
   end
 
-  it 'should have no active features after initialization' do
-    expect(@repository.active_features).to eq([])
+  it_behaves_like 'a dynamic repository' do
+    let(:repo) { RedisRepository.new('application_features') }
   end
 
-  it 'should add an active feature' do
-    @repository.add_active_feature :feature_a
-    expect(@repository.active_features).to eq([:feature_a])
-  end
-
-  it 'should only show active feature' do
-    Redis.current.hset('application_features', 'inactive_a', false)
-    Redis.current.hset('application_features', 'inactive_b', false)
-    Redis.current.hset('application_features', 'feature_a', true)
-    Redis.current.hset('application_features', 'feature_b', true)
-
-    expect(@repository.active_features).to eq([:feature_a, :feature_b])
-  end
-
-  it 'should raise an exception when adding not a symbol as active feature' do
-    expect do
-      @repository.add_active_feature 'feature_a'
-    end.to raise_error(ArgumentError, 'feature_a is not a symbol')
-  end
-
-  it 'should raise an exception when adding a active feature already added as active' do
-    @repository.add_active_feature :feature_a
-    expect do
-      @repository.add_active_feature :feature_a
-    end.to raise_error(ArgumentError, 'feature :feature_a already added')
+  it_behaves_like 'a repository' do
+    let(:repo) do
+      repository = RedisRepository.new('application_features')
+      repository.create(:feature_a_inactive, false)
+      repository.create(:feature_b_inactive, false)
+      repository.create(:feature_a_active, true)
+      repository.create(:feature_b_active, true)
+      repository
+    end
   end
 
   let(:specified_redis) { double }
-  let(:repo) { RedisRepository.new('application_features', specified_redis) }
+  let(:redis_key) { 'application_features' }
+  let(:repo) { RedisRepository.new(redis_key, specified_redis) }
   it 'should allow you to specify the redis instance to use' do
     expect(repo.send(:redis)).to eq specified_redis
+  end
+
+  describe '#get' do
+    subject { repo.get(feature_name) }
+    context 'when the stored value is not nil, "true" or "false"' do
+      let(:stored_value) { 'bad_value' }
+      let(:feature_name) { :my_feature }
+
+      before do
+        allow(specified_redis).to receive(:hget).with(redis_key, feature_name.to_s)
+          .and_return(stored_value)
+      end
+
+      it 'should raise an error' do
+        expect{subject}.to raise_error(ArgumentError)
+      end
+    end
   end
 end
