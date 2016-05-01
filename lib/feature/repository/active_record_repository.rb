@@ -49,7 +49,7 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_already_in_list(feature)
-        raise ArgumentError, "feature :#{feature} already added" if @model.exists?(feature.to_s)
+        raise ArgumentError, "feature :#{feature} already added" if @model.exists?(name: feature.to_s)
       end
       private :check_feature_already_in_list
     end

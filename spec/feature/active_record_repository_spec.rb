@@ -22,7 +22,7 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   it 'should add an active feature' do
-    expect(@features).to receive(:exists?).with('feature_a').and_return(false)
+    expect(@features).to receive(:exists?).with(name: 'feature_a').and_return(false)
     expect(@features).to receive(:create!).with(name: 'feature_a', active: true)
 
     @repository.add_active_feature :feature_a
