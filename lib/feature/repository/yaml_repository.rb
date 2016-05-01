@@ -93,7 +93,7 @@ module Feature
         data = data[selector] unless selector.empty?
 
         if !data.is_a?(Hash) || !data.key?('features')
-          fail ArgumentError, 'yaml config does not contain proper config'
+          raise ArgumentError, 'yaml config does not contain proper config'
         end
 
         return {} unless data['features']
@@ -111,7 +111,7 @@ module Feature
       def check_valid_feature_data(features)
         features.values.each do |value|
           unless [true, false].include?(value)
-            fail ArgumentError, "#{value} is not allowed value in config, use true/false"
+            raise ArgumentError, "#{value} is not allowed value in config, use true/false"
           end
         end
       end

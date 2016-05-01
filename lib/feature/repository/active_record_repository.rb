@@ -92,7 +92,7 @@ module Feature
       # @param [Sybmol] feature the feature to be checked
       #
       def check_feature_is_not_symbol(feature)
-        fail ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
+        raise ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
       end
       private :check_feature_is_not_symbol
 
@@ -102,7 +102,7 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       #
       def check_feature_already_in_list(feature)
-        fail ArgumentError, "feature :#{feature} already added" if @model.exists?(name: feature.to_s)
+        raise ArgumentError, "feature :#{feature} already added" if @model.exists?(name: feature.to_s)
       end
       private :check_feature_already_in_list
     end

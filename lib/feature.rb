@@ -56,7 +56,7 @@ module Feature
   #
   def self.set_repository(repository, auto_refresh = false)
     unless repository.respond_to?(:active_features)
-      fail ArgumentError, 'given repository does not respond to active_features'
+      raise ArgumentError, 'given repository does not respond to active_features'
     end
 
     @auto_refresh = auto_refresh
@@ -79,11 +79,7 @@ module Feature
   # @return [Boolean]
   #
   def self.active?(feature)
-    fail 'missing Repository for obtaining feature lists' unless @repository
-
-    refresh! if @auto_refresh || @perform_initial_refresh
-
-    @active_features.include?(feature)
+    active_features.include?(feature)
   end
 
   # Requests if feature is inactive (or unknown)
@@ -100,7 +96,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.with(feature)
-    fail ArgumentError, "no block given to #{__method__}" unless block_given?
+    raise ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if active?(feature)
   end
@@ -110,7 +106,7 @@ module Feature
   # @param [Symbol] feature
   #
   def self.without(feature)
-    fail ArgumentError, "no block given to #{__method__}" unless block_given?
+    raise ArgumentError, "no block given to #{__method__}" unless block_given?
 
     yield if inactive?(feature)
   end
@@ -127,5 +123,17 @@ module Feature
     else
       l2.instance_of?(Proc) ? l2.call : l2
     end
+  end
+
+  # Return list of active feature flags.
+  #
+  # @return [Array] list of symbols
+  #
+  def self.active_features
+    raise 'missing Repository for obtaining feature lists' unless @repository
+
+    refresh! if @auto_refresh || @perform_initial_refresh
+
+    @active_features
   end
 end
