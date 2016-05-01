@@ -39,7 +39,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def create(feature, val=false)
+      def create(feature, val = false)
         check_feature_is_not_symbol(feature)
         val ? (@active_features << feature) : (@inactive_features << feature)
       end

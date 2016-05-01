@@ -39,7 +39,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def create(feature, val=false)
+      def create(feature, val = false)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
         @model.create!({ name: feature.to_s, active: val }, without_protection: :true)

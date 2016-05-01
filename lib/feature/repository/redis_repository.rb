@@ -41,7 +41,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def create(feature, val=false)
+      def create(feature, val = false)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
         set(feature, val)
@@ -104,7 +104,7 @@ module Feature
       def convert_string_to_bool(str)
         return true if str == 'true'
         return false if str.nil? || str == 'false'
-        fail ArgumentError, "invalid bool string: #{str.inspect}"
+        raise ArgumentError, "invalid bool string: #{str.inspect}"
       end
       private :convert_string_to_bool
 
