@@ -9,7 +9,7 @@ require 'feature/tasks'
 #
 # Example usage:
 #   repository = SimpleRepository.new
-#   repository.add_active_feature(:feature_name)
+#   repository.create(:feature_name, true)
 #
 #   Feature.set_repository(repository)
 #   Feature.active?(:feature_name)
@@ -29,20 +29,22 @@ module Feature
   @active_features = nil
 
   def self.get(feature)
-    @repository.get_feature(feature)
+    @repository.get(feature)
   end
 
   def self.set(feature, active)
-    @repository.set_feature(feature, active)
+    @repository.set(feature, active)
   end
 
   def self.add(feature, active)
-    @repository.create_feature(feature, active)
+    @repository.create(feature, active)
   end
+  singleton_class.send(:alias_method, :create, :add)
 
   def self.remove(feature)
-    @repository.remove_feature(feature)
+    @repository.destroy(feature)
   end
+  singleton_class.send(:alias_method, :destroy, :remove)
 
   def self.all
     @repository.features

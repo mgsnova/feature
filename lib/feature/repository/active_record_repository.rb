@@ -6,7 +6,7 @@ module Feature
     #
     # Example usage:
     #   repository = ActiveRecordRepository.new(FeatureToggle)
-    #   repository.add_active_feature(:feature_name)
+    #   repository.create(:feature_name)
     #   # use repository with Feature
     #
     class ActiveRecordRepository
@@ -16,19 +16,11 @@ module Feature
         @model = model
       end
 
-      # Add an active feature to repository
-      #
-      # @param [Symbol] feature the feature to be added
-      #
-      def add_active_feature(feature)
-        create_feature(feature, true)
-      end
-
       # Remove a feature from a repository
       #
       # @param [Symbol] feature the feature to be removed
       #
-      def remove_feature(feature)
+      def destroy(feature)
         feature_obj = @model.find_by_name(feature.to_s)
         feature_obj.destroy! if feature_obj.present?
       end
@@ -37,7 +29,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be checked
       # @return [Boolean] whether the feature is active
-      def get_feature(feature)
+      def get(feature)
         check_feature_is_not_symbol(feature)
         @model.find_by_name(feature.to_s).active
       end
@@ -46,7 +38,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def create_feature(feature, val)
+      def create(feature, val=false)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
         @model.create!({ name: feature.to_s, active: val }, without_protection: :true)
@@ -56,9 +48,9 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def set_feature(feature, val)
+      def set(feature, val)
         feature_obj = @model.find_by_name(feature.to_s)
-        return create_feature(feature, val) if feature_obj.nil?
+        return create(feature, val) if feature_obj.nil?
         feature_obj.active = val
         feature_obj.save!
       end

@@ -6,7 +6,7 @@ module Feature
     #
     # Example usage:
     #   repository = SimpleRepository.new
-    #   repository.add_active_feature(:feature_name)
+    #   repository.create(:feature_name)
     #   # use repository with Feature
     #
     class SimpleRepository
@@ -17,19 +17,11 @@ module Feature
         @inactive_features = []
       end
 
-      # Add an active feature to repository
-      #
-      # @param [Symbol] feature the feature to be added
-      #
-      def add_active_feature(feature)
-        create_feature(feature, true)
-      end
-
       # Remove a feature from a repository
       #
       # @param [Symbol] feature the feature to be removed
       #
-      def remove_feature(feature)
+      def destroy(feature)
         @active_features -= [feature]
         @inactive_features -= [feature]
         true
@@ -39,7 +31,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be checked
       # @return [Boolean] whether the feature is active
-      def get_feature(feature)
+      def get(feature)
         @active_features.include?(feature)
       end
 
@@ -47,9 +39,8 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def create_feature(feature, val)
+      def create(feature, val=false)
         check_feature_is_not_symbol(feature)
-        check_feature_already_in_list(feature)
         val ? (@active_features << feature) : (@inactive_features << feature)
       end
 
@@ -57,9 +48,10 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def set_feature(feature, val)
-        remove_feature(feature)
-        create_feature(feature, val)
+      def set(feature, val)
+        check_feature_is_not_symbol(feature)
+        destroy(feature)
+        create(feature, val)
       end
 
       # List all of the features in a repository
@@ -96,16 +88,6 @@ module Feature
         raise ArgumentError, "#{feature} is not a symbol" unless feature.instance_of?(Symbol)
       end
       private :check_feature_is_not_symbol
-
-      # Checks if given feature is already added to list of active features
-      # and raises an exception if so
-      #
-      # @param [Symbol] feature the feature to be checked
-      #
-      def check_feature_already_in_list(feature)
-        raise ArgumentError, "feature :#{feature} already added" if features.include?(feature)
-      end
-      private :check_feature_already_in_list
     end
   end
 end

@@ -51,19 +51,19 @@ describe Feature do
       end
 
       it 'should get active features lazy on first usage' do
-        @repository.add_active_feature(:feature_a)
+        @repository.create(:feature_a, true)
         # the line below will be the first usage of feature in this case
         expect(Feature.active?(:feature_a)).to be_truthy
       end
 
       it 'should get active features from repository once' do
         Feature.active?(:does_not_matter)
-        @repository.add_active_feature(:feature_a)
+        @repository.create(:feature_a, true)
         expect(Feature.active?(:feature_a)).to be_falsey
       end
 
       it 'should reload active features on first call only' do
-        @repository.add_active_feature(:feature_a)
+        @repository.create(:feature_a, true)
         expect(@repository).to receive(:active_features).once.and_return(@repository.active_features)
         Feature.active?(:feature_a)
         Feature.active?(:feature_a)
@@ -75,7 +75,7 @@ describe Feature do
         Feature.set_repository @repository, true
       end
       it 'should reload active features on every call' do
-        @repository.add_active_feature(:feature_a)
+        @repository.create(:feature_a, true)
         expect(@repository).to receive(:active_features).twice.and_return(@repository.active_features)
         Feature.active?(:feature_a)
         Feature.active?(:feature_a)
@@ -90,7 +90,7 @@ describe Feature do
     end
 
     it 'should refresh active feature lists from repository' do
-      @repository.add_active_feature(:feature_a)
+      @repository.create(:feature_a, true)
       Feature.refresh!
       expect(Feature.active?(:feature_a)).to be_truthy
     end
@@ -99,7 +99,7 @@ describe Feature do
   context 'request features' do
     before(:each) do
       repository = Feature::Repository::SimpleRepository.new
-      repository.add_active_feature :feature_active
+      repository.create(:feature_active, true)
       Feature.set_repository repository
     end
 

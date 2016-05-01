@@ -14,10 +14,10 @@ describe Feature::Repository::RedisRepository do
   it_behaves_like 'a repository' do
     let(:repo) do
       repository = RedisRepository.new('application_features')
-      repository.create_feature(:feature_a_inactive, false)
-      repository.create_feature(:feature_b_inactive, false)
-      repository.create_feature(:feature_a_active, true)
-      repository.create_feature(:feature_b_active, true)
+      repository.create(:feature_a_inactive, false)
+      repository.create(:feature_b_inactive, false)
+      repository.create(:feature_a_active, true)
+      repository.create(:feature_b_active, true)
       repository
     end
   end

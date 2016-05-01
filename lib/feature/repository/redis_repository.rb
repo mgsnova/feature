@@ -4,7 +4,7 @@ module Feature
     #
     # Example usage:
     #   repository = RedisRepository.new("feature_toggles")
-    #   repository.add_active_feature(:feature_name)
+    #   repository.create(:feature_name)
     #
     # 'feature_toggles' can be whatever name you want to use for
     # the Redis hash that will store all of your feature toggles.
@@ -21,19 +21,11 @@ module Feature
         @redis = client unless client.nil?
       end
 
-      # Add an active feature to repository
-      #
-      # @param [Symbol] feature the feature to be added
-      #
-      def add_active_feature(feature)
-        create_feature(feature, true)
-      end
-
       # Remove a feature from a repository
       #
       # @param [Symbol] feature the feature to be removed
       #
-      def remove_feature(feature)
+      def destroy(feature)
         redis.hdel(@redis_key, feature.to_s) == 1
       end
 
@@ -41,7 +33,7 @@ module Feature
       #
       # @param [Symbol] feature the feature to be checked
       # @return [Boolean] whether the feature is active
-      def get_feature(feature)
+      def get(feature)
         convert_string_to_bool(redis.hget(@redis_key, feature.to_s))
       end
 
@@ -49,17 +41,17 @@ module Feature
       #
       # @param [Symbol] feature the feature to be added
       #
-      def create_feature(feature, val)
+      def create(feature, val=false)
         check_feature_is_not_symbol(feature)
         check_feature_already_in_list(feature)
-        set_feature(feature, val)
+        set(feature, val)
       end
 
       # Set the value of feature in a repository
       #
       # @param [Symbol] feature the feature to be added
       #
-      def set_feature(feature, val)
+      def set(feature, val)
         redis.hset(@redis_key, feature.to_s, val)
       end
 

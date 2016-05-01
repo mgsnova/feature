@@ -22,10 +22,10 @@ shared_examples_for 'a repository' do
     expect(repo.inactive_features.sort).to eq([:feature_a_inactive, :feature_b_inactive].sort)
   end
 
-  it '#get_feature should only show active features' do
-    expect(repo.get_feature(:feature_a_inactive)).to eq false
-    expect(repo.get_feature(:feature_a_active)).to eq true
-    expect(repo.get_feature(:feature_b_inactive)).to eq false
-    expect(repo.get_feature(:feature_b_active)).to eq true
+  it '#get should only show active features' do
+    expect(repo.get(:feature_a_inactive)).to eq false
+    expect(repo.get(:feature_a_active)).to eq true
+    expect(repo.get(:feature_b_inactive)).to eq false
+    expect(repo.get(:feature_b_active)).to eq true
   end
 end

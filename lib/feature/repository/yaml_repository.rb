@@ -41,7 +41,7 @@ module Feature
       # @param [Symbol] feature the feature to be checked
       # @return [Boolean] whether the feature is active
       #
-      def get_feature(feature)
+      def get(feature)
         active_features.include?(feature)
       end
 
@@ -50,7 +50,7 @@ module Feature
       # @return [Array<Symbol>] list of active features
       #
       def active_features
-        data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
+        data_hash = get_hash(read_file(@yaml_file_name), @environment)
         data_hash.select { |_, v| v }.keys.map(&:to_sym)
       end
 
@@ -59,7 +59,7 @@ module Feature
       # @return [Array<Symbol>] list of active features
       #
       def inactive_features
-        data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
+        data_hash = get_hash(read_file(@yaml_file_name), @environment)
         data_hash.select { |_, v| !v }.keys.map(&:to_sym)
       end
 
@@ -68,7 +68,7 @@ module Feature
       # @return [Array<Symbol>] list of active features
       #
       def features
-        data_hash = get_feature_hash(read_file(@yaml_file_name), @environment)
+        data_hash = get_hash(read_file(@yaml_file_name), @environment)
         data_hash.each_pair.inject({}) { |h, (k, v)| h.merge(k.to_sym => v) }
       end
 
@@ -89,7 +89,7 @@ module Feature
       # @param data [Hash] hash parsed from yaml file
       # @param selector [String] uses the value for this key as source of feature data
       #
-      def get_feature_hash(data, selector)
+      def get_hash(data, selector)
         data = data[selector] unless selector.empty?
 
         if !data.is_a?(Hash) || !data.key?('features')
@@ -102,7 +102,7 @@ module Feature
 
         data['features']
       end
-      private :get_feature_hash
+      private :get_hash
 
       # Checks for valid values in given feature hash
       #

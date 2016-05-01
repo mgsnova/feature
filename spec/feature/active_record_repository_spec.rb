@@ -77,7 +77,7 @@ describe Feature::Repository::ActiveRecordRepository do
   end
 
   it 'should have active features' do
-    @repository.create_feature(:active, true)
+    @repository.create(:active, true)
 
     expect(@repository.active_features).to eq([:active])
   end
@@ -86,19 +86,19 @@ describe Feature::Repository::ActiveRecordRepository do
     expect(@features).to receive(:exists?).with(name: 'feature_a').and_return(false)
     expect(@features).to receive(:create!).with({ name: 'feature_a', active: true }, without_protection: :true)
 
-    @repository.add_active_feature :feature_a
+    @repository.create(:feature_a, true)
   end
 
   it 'should raise an exception when adding not a symbol as active feature' do
     expect do
-      @repository.add_active_feature 'feature_a'
+      @repository.create('feature_a', true)
     end.to raise_error(ArgumentError, 'feature_a is not a symbol')
   end
 
   it 'should raise an exception when adding a active feature already added as active' do
-    @repository.add_active_feature :feature_a
+    @repository.create(:feature_a, true)
     expect do
-      @repository.add_active_feature :feature_a
+      @repository.create(:feature_a, true)
     end.to raise_error(ArgumentError, 'feature :feature_a already added')
   end
 end

@@ -158,7 +158,7 @@ gem 'feature'
 require 'feature'
 
 repo = Feature::Repository::SimpleRepository.new
-repo.add_active_feature :be_nice
+repo.create :be_nice
 
 Feature.set_repository repo
 ```
@@ -242,5 +242,5 @@ FeatureToggle.create!(name: "InActiveFeature", active: false)
 
 # or in initializer
 # File: config/initializers/feature.rb
-repo.add_active_feature(:active_feature)
+repo.create(:active_feature, true)
 ```
