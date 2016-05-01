@@ -37,4 +37,10 @@ describe Feature::Repository::RedisRepository do
       @repository.add_active_feature :feature_a
     end.to raise_error(ArgumentError, 'feature :feature_a already added')
   end
+
+  let(:specified_redis) { double }
+  let(:repo) { RedisRepository.new('application_features', specified_redis) }
+  it 'should allow you to specify the redis instance to use' do
+    expect(repo.send(:redis)).to eq specified_redis
+  end
 end
