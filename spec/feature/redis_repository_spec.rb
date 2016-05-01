@@ -25,6 +25,6 @@ describe Feature::Repository::RedisRepository do
   let(:specified_redis) { double }
   let(:repo) { RedisRepository.new('application_features', specified_redis) }
   it 'should allow you to specify the redis instance to use' do
-    expect(repo.redis).to eq specified_redis
+    expect(repo.send(:redis)).to eq specified_redis
   end
 end

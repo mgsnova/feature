@@ -10,14 +10,15 @@ module Feature
     # the Redis hash that will store all of your feature toggles.
     #
     class RedisRepository
-      attr_accessor :redis
+      attr_writer :redis
+
       # Constructor
       #
       # @param redis_key the key of the redis hash where all the toggles will be stored
       #
-      def initialize(redis_key, server = nil)
+      def initialize(redis_key, client = nil)
         @redis_key = redis_key
-        self.redis = server unless redis.nil?
+        @redis = client unless client.nil?
       end
 
       # Add an active feature to repository
@@ -86,10 +87,6 @@ module Feature
         redis.hgetall(@redis_key).select { |_k, v| v.to_s == 'false' }.map { |k, _v| k.to_sym }
       end
 
-      def redis
-        @redis ||= Redis.current
-      end
-
       # Checks that given feature is a symbol, raises exception otherwise
       #
       # @param [Sybmol] feature the feature to be checked
@@ -118,6 +115,15 @@ module Feature
         fail ArgumentError, "invalid bool string: #{str.inspect}"
       end
       private :convert_string_to_bool
+
+      # Returns the currently specified redis client
+      #
+      # @return [Redis] Currently set redis client
+      #
+      def redis
+        @redis ||= Redis.current
+      end
+      private :redis
     end
   end
 end
