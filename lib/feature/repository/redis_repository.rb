@@ -53,6 +53,7 @@ module Feature
       #
       def set(feature, val)
         redis.hset(@redis_key, feature.to_s, val)
+        true
       end
 
       # List all of the features in a repository

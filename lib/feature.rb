@@ -36,7 +36,7 @@ module Feature
     @repository.set(feature, active)
   end
 
-  def self.add(feature, active)
+  def self.add(feature, active = false)
     @repository.create(feature, active)
   end
   singleton_class.send(:alias_method, :create, :add)
@@ -49,6 +49,7 @@ module Feature
   def self.all
     @repository.features
   end
+  singleton_class.send(:alias_method, :features, :all)
 
   # Set the feature repository
   # The given repository has to respond to method 'active_features' with an array of symbols
@@ -71,6 +72,7 @@ module Feature
   #
   def self.refresh!
     @active_features = @repository.active_features
+    @inactive_features = @repository.inactive_features
     @perform_initial_refresh = false
   end
 
@@ -137,5 +139,17 @@ module Feature
     refresh! if @auto_refresh || @perform_initial_refresh
 
     @active_features
+  end
+
+  # Return list of inactive feature flags.
+  #
+  # @return [Array] list of symbols
+  #
+  def self.inactive_features
+    raise 'missing Repository for obtaining feature lists' unless @repository
+
+    refresh! if @auto_refresh || @perform_initial_refresh
+
+    @inactive_features
   end
 end

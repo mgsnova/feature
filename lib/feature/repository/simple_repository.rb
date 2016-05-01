@@ -41,7 +41,7 @@ module Feature
       #
       def create(feature, val = false)
         check_feature_is_not_symbol(feature)
-        val ? (@active_features << feature) : (@inactive_features << feature)
+        val ? !!(@active_features << feature) : !!(@inactive_features << feature)
       end
 
       # Set the value of feature in a repository

@@ -98,9 +98,10 @@ describe Feature do
 
   context 'request features' do
     before(:each) do
-      repository = Feature::Repository::SimpleRepository.new
-      repository.create(:feature_active, true)
-      Feature.set_repository repository
+      @repository = Feature::Repository::SimpleRepository.new
+      @repository.create(:feature_active, true)
+      @repository.create(:feature_inactive, false)
+      Feature.set_repository @repository
     end
 
     it 'should affirm active feature is active' do
@@ -171,7 +172,7 @@ describe Feature do
       end.to raise_error(ArgumentError, 'no block given to without')
     end
 
-    describe 'switch()' do
+    describe '#switch' do
       context 'given a value' do
         it 'should return the first value if the feature is active' do
           retval = Feature.switch(:feature_active, 1, 2)
@@ -197,9 +198,100 @@ describe Feature do
       end
     end
 
-    describe 'active_features' do
+    describe '#active_features' do
       it 'should return an array of active feature flags' do
         expect(Feature.active_features).to eq([:feature_active])
+      end
+    end
+
+    describe '#inactive_features' do
+      it 'should return an array of inactive feature flags' do
+        expect(Feature.inactive_features).to eq([:feature_inactive])
+      end
+    end
+
+    describe '#get' do
+      it 'should return the state of the requested feature' do
+        expect(Feature.get(:feature_active)).to eq(true)
+        expect(Feature.get(:feature_inactive)).to eq(false)
+      end
+    end
+
+    describe '#set' do
+      context 'when the toggle exists' do
+        it 'should update the state of the specified feature' do
+          expect(Feature.get(:feature_active)).to eq(true)
+          expect(Feature.set(:feature_active, false)).to eq(true)
+          expect(Feature.get(:feature_active)).to eq(false)
+        end
+      end
+
+      context 'when the toggle does not exist' do
+        it 'should create the feature with the specified state' do
+          expect(@repository).to receive(:create).with(:feature_missing, true).and_call_original
+          expect(Feature.set(:feature_missing, true)).to eq(true)
+          expect(Feature.get(:feature_missing)).to eq(true)
+        end
+      end
+    end
+
+    describe '#add' do
+      it 'should create the feature with the specified state' do
+        expect(@repository).to receive(:create).with(:feature_missing, true).and_call_original
+        expect(Feature.add(:feature_missing, true)).to eq(true)
+        expect(Feature.get(:feature_missing)).to eq(true)
+      end
+
+      it 'should create the feature with a default state of false' do
+        expect(@repository).to receive(:create).with(:feature_missing, false).and_call_original
+        expect(Feature.add(:feature_missing)).to eq(true)
+        expect(Feature.get(:feature_missing)).to eq(false)
+      end
+    end
+
+    describe '#create' do
+      it 'should create the feature with the specified state' do
+        expect(@repository).to receive(:create).with(:feature_missing, true).and_call_original
+        expect(Feature.create(:feature_missing, true)).to eq(true)
+        expect(Feature.get(:feature_missing)).to eq(true)
+      end
+
+      it 'should create the feature with a default state of false' do
+        expect(@repository).to receive(:create).with(:feature_missing, false).and_call_original
+        expect(Feature.create(:feature_missing)).to eq(true)
+        expect(Feature.get(:feature_missing)).to eq(false)
+      end
+    end
+
+    describe '#remove' do
+      it 'should remove the feature' do
+        expect(Feature.active_features).to include(:feature_active)
+        expect(Feature.remove(:feature_active)).to eq(true)
+        Feature.refresh!
+        expect(Feature.active_features).not_to include(:feature_active)
+        expect(Feature.inactive_features).not_to include(:feature_active)
+      end
+    end
+
+    describe '#destroy' do
+      it 'should remove the feature' do
+        expect(Feature.active_features).to include(:feature_active)
+        expect(Feature.destroy(:feature_active)).to eq(true)
+        Feature.refresh!
+        expect(Feature.active_features).not_to include(:feature_active)
+        expect(Feature.inactive_features).not_to include(:feature_active)
+      end
+    end
+
+    describe '#all' do
+      it 'should return a hash of all defined features and their state' do
+        expect(Feature.all).to eq(feature_active: true, feature_inactive: false)
+      end
+    end
+
+    describe '#features' do
+      it 'should return a hash of all defined features and their state' do
+        expect(Feature.features).to eq(feature_active: true, feature_inactive: false)
       end
     end
   end
