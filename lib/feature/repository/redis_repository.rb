@@ -11,12 +11,12 @@ module Feature
     #
     class RedisRepository
       attr_writer :redis
-      
+
       # Constructor
       #
       # @param redis_key the key of the redis hash where all the toggles will be stored
       #
-      def initialize(redis_key, client=nil)
+      def initialize(redis_key, client = nil)
         @redis_key = redis_key
         @redis = client unless client.nil?
       end
