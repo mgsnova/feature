@@ -28,4 +28,8 @@ shared_examples_for 'a repository' do
     expect(repo.get(:feature_b_inactive)).to eq false
     expect(repo.get(:feature_b_active)).to eq true
   end
+
+  it '#get should return false when the feature does not exist' do
+    expect(repo.get(:undefined_feature)).to eq false
+  end
 end

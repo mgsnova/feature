@@ -31,7 +31,8 @@ module Feature
       # @return [Boolean] whether the feature is active
       def get(feature)
         check_feature_is_not_symbol(feature)
-        @model.find_by_name(feature.to_s).active
+        feature_obj = @model.find_by_name(feature.to_s)
+        !feature_obj.nil? && feature_obj.active
       end
 
       # Add a feature to repository
