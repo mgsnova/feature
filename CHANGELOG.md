@@ -1,3 +1,10 @@
+## 1.4.0 (2016-06-11)
+
+* possibility to refresh feature list after certain time (enc)
+* call to get all active features (pmeskers)
+* Improve and prettify README (glaucocustodio)
+* Fixing typos in README (adarsh)
+
 ## 1.3.0 (2015-06-12)
 
 * Support testing with multiple features (stevenwilkin)
