@@ -1,4 +1,5 @@
 require 'pathname'
+require 'timecop'
 require 'coveralls'
 require 'fakeredis/rspec'
 

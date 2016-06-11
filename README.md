@@ -83,7 +83,7 @@ With this approach Feature is highly configurable and not bound to a specific ki
     * Subsequent calls to Feature will access the cached in-memory
       representation of the list of features. So changes to toggles in the 
       underlying repository would not be reflected in the application
-      until you restart the application or manally call 
+      until you restart the application or manually call
         ```ruby
         Feature.refresh!
         ```
@@ -92,7 +92,14 @@ With this approach Feature is highly configurable and not bound to a specific ki
       set_repository, to force Feature to auto-refresh the feature list
       on every feature-toggle check you make.
         ```ruby
-        Feature.set_repository(your_repository, true) 
+        Feature.set_repository(your_repository, true)
+        ```
+
+    * You can also optionally pass in a number as second argument on
+      set_repository, to force Feature to refresh the feature list
+      after X seconds. This will be done only on demand by a request.
+        ```ruby
+        Feature.set_repository(your_repository, 60)
         ```
 
 ## How to setup different backends

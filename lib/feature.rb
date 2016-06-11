@@ -31,16 +31,22 @@ module Feature
   # The given repository has to respond to method 'active_features' with an array of symbols
   #
   # @param [Object] repository the repository to get the features from
-  # @param [Boolean] auto_refresh optional (default: false) - refresh feature toggles on every check if set true
+  # @param [Boolean|Integer] refresh optional (default: false) - auto refresh or refresh after given number of seconds
   #
-  def self.set_repository(repository, auto_refresh = false)
+  def self.set_repository(repository, refresh = false)
     unless repository.respond_to?(:active_features)
       raise ArgumentError, 'given repository does not respond to active_features'
     end
 
-    @auto_refresh = auto_refresh
     @perform_initial_refresh = true
     @repository = repository
+    if [true, false].include?(refresh)
+      @auto_refresh = refresh
+    else
+      @auto_refresh = false
+      @refresh_after = refresh
+      @next_refresh_after = Time.now + @refresh_after
+    end
   end
 
   # Refreshes list of active features from repository.
@@ -48,6 +54,7 @@ module Feature
   #
   def self.refresh!
     @active_features = @repository.active_features
+    @next_refresh_after = Time.now + @refresh_after if @refresh_after
     @perform_initial_refresh = false
   end
 
@@ -111,7 +118,7 @@ module Feature
   def self.active_features
     raise 'missing Repository for obtaining feature lists' unless @repository
 
-    refresh! if @auto_refresh || @perform_initial_refresh
+    refresh! if @auto_refresh || @perform_initial_refresh || (@next_refresh_after && Time.now > @next_refresh_after)
 
     @active_features
   end

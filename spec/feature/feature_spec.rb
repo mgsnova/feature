@@ -81,6 +81,31 @@ describe Feature do
         Feature.active?(:feature_a)
       end
     end
+
+    context 'with timeout set to 30 seconds' do
+      before(:each) do
+        Timecop.freeze(Time.now)
+        Feature.set_repository @repository, 30
+        @repository.add_active_feature(:feature_a)
+        Feature.active?(:feature_a)
+      end
+
+      after(:each) do
+        Timecop.return
+      end
+
+      it 'should not update after 10 seconds' do
+        Timecop.freeze(Time.now + 10)
+        expect(@repository).not_to receive(:active_features)
+        Feature.active?(:feature_a)
+      end
+
+      it 'should update after 40 seconds' do
+        Timecop.freeze(Time.now + 40)
+        expect(@repository).to receive(:active_features).and_return(@repository.active_features)
+        Feature.active?(:feature_a)
+      end
+    end
   end
 
   context 'refresh features' do
