@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Feature do
   context 'without FeatureRepository' do
+    before(:each) do
+      Feature.instance_variable_set(:@repository, nil)
+    end
     it 'should raise an exception when calling active?' do
       expect do
         Feature.active?(:feature_a)
