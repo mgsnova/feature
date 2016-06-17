@@ -11,3 +11,5 @@ coverage
 .ruby-gemset
 .ruby-version
 .bundle
+spec/tmp/*
+spec/feature/tmp/*

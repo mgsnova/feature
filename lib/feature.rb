@@ -22,7 +22,7 @@
 #
 module Feature
   require 'feature/repository'
-  require 'feature/generators/install_generator'
+  require 'feature/generators/feature_generator'
 
   @repository = nil
   @active_features = nil
