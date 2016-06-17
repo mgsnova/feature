@@ -9,6 +9,7 @@ group :test do
   gem 'rubocop', require: false
   gem 'timecop'
   gem 'fakeredis'
+  gem 'generator_spec'
   if RUBY_VERSION >= '2.1'
     gem 'mutant'
     gem 'mutant-rspec'

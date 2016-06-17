@@ -186,13 +186,15 @@ gem 'feature'
 ```
 
 ```
-# Run generator and migrations
-$ rails g feature:install
+# Create a feature class 
+$ rails g feature FeatureToggle (or feature_toggle)
+
+# Run migrations
 $ rake db:migrate
 ```
 
 ```ruby
-# Add Features to table FeaturesToggle for example in
+# Add some Features to specified db table. For example in:
 # File: db/schema.rb
 FeatureToggle.create!(name: "ActiveFeature", active: true)
 FeatureToggle.create!(name: "InActiveFeature", active: false)
