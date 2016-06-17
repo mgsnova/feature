@@ -1,5 +1,5 @@
 # Set repository to ActiveRecord
-if FeatureToggle.table_exists?
-  repo = Feature::Repository::ActiveRecordRepository.new(FeatureToggle)
+if <%= class_name %>.table_exists?
+  repo = Feature::Repository::ActiveRecordRepository.new(<%= class_name %>)
   Feature.set_repository(repo)
 end
