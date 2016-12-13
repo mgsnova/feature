@@ -3,6 +3,8 @@ require 'timecop'
 require 'coveralls'
 require 'fakeredis/rspec'
 
+#require 'rails'
+
 Coveralls.wear!
 Coveralls::Output.silent = true
 
