@@ -20,7 +20,7 @@ echo  "gem 'feature', path: '../../../..'" >> $TESTAPP_NAME/Gemfile
 cd $TESTAPP_NAME
 
 bundle install
-bundle exec rails g feature:install
+bundle exec rails g feature FeatureToggle
 bundle exec rake db:migrate
 
 cd ..
