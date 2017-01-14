@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+bundle exec rake
+
+if [[ `ruby -v` =~ "ruby 2.4" ]];
+then
+  for rails_version in 5; do
+    cd spec/integration/rails
+    RAILS_VERSION=$rails_version ./test-against-specific-rails-version.sh
+    cd -
+  done
+fi

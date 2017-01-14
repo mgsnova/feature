@@ -9,10 +9,7 @@ rvm:
   - jruby-head
 matrix:
   allow_failures:
-    - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: 2.4.0
 before_install: gem install bundler
 script:
-  - bundle exec rake
-  - cd spec/integration/rails && ./test-against-several-rails-versions.sh
+  - ci/test
