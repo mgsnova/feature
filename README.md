@@ -185,7 +185,7 @@ Feature.set_repository repo
 gem 'feature'
 ```
 
-```
+```ruby
 # Run generator and migrations
 $ rails g feature:install
 $ rake db:migrate
