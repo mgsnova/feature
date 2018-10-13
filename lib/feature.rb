@@ -42,6 +42,8 @@ module Feature
     @repository = repository
     if [true, false].include?(refresh)
       @auto_refresh = refresh
+      @refresh_after = nil
+      @next_refresh_after = nil
     else
       @auto_refresh = false
       @refresh_after = refresh
